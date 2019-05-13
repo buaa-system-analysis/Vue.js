@@ -4,9 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
+import SuiVue from 'semantic-ui-vue'
+import 'semantic-ui-css/semantic.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
 
+Vue.use(SuiVue)
 Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.config.productionTip = false
