@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/views/Index'
 import Menu from '@/components/NavigationBar'
+import Card from '@/components/Card'
 
 Vue.use(Router)
 
@@ -18,7 +19,10 @@ export default new Router({
       path: '/home',
       components: {
         default: Menu
-      }
+      },
+      children: [
+        {path: 'Card', component: Card}
+      ]
     }
   ]
 })

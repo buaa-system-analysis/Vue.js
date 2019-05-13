@@ -15,7 +15,7 @@
         <el-row class="tac">
           <el-col :span="12">
             <el-menu
-              default-active="1"
+              default-active="0"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
@@ -24,29 +24,42 @@
               active-text-color="#ffd04b"
               :collapse="false">
               <el-menu-item index="1">
-                <i class="el-icon-search"></i>
-                <span slot="title">搜索</span>
+                <a href="/">
+                  <i class="el-icon-search"></i>
+                  <span slot="title" class="menu-item">搜索</span>
+                </a>
               </el-menu-item>
               <el-menu-item index="2">
-                <i class="el-icon-menu"></i>
-                <span slot="title">学者主页</span>
+                <a href="/scholar">
+                  <i class="el-icon-menu"></i>
+                  <span slot="title" class="menu-item">学者主页</span>
+                </a>
               </el-menu-item>
               <el-menu-item index="3">
-                <i class="el-icon-document"></i>
-                <span slot="title">收藏</span>
+                <a href="collection">
+                  <i class="el-icon-document"></i>
+                  <span slot="title" class="menu-item">收藏</span>
+                </a>
               </el-menu-item>
               <el-menu-item index="4">
-                <i class="el-icon-check"></i>
-                <span slot="title">购买</span>
+                <a href="purchase">
+                  <i class="el-icon-check"></i>
+                  <span slot="title" class="menu-item">购买</span>
+                </a>
               </el-menu-item>
               <el-menu-item index="5">
-                <i class="el-icon-setting"></i>
-                <span slot="title">个人中心</span>
+                <a href="/user">
+                  <i class="el-icon-setting"></i>
+                  <span slot="title" class="menu-item">个人中心</span>
+                </a>
               </el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
       </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
     <el-footer class="footcon">
       <el-row>
@@ -80,6 +93,9 @@ export default {
 <style>
   .el-menu-item{
     position: relative;
+  }
+  .menu-item{
+    color: white;
   }
   h3{
     color: #F56C6C;
