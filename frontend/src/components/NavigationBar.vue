@@ -1,5 +1,5 @@
 <template lang="html">
-  <el-container>
+  <el-container class="back-container">
     <el-header>
       <el-menu :default-active="activeIndex" mode="horizontal" style="float:right">
         <el-menu-item index="1" @click="loginDialogVisable = true" v-if="userID === null">登录/注册</el-menu-item>
@@ -11,9 +11,9 @@
       </el-menu>
     </el-header>
     <el-container>
-      <el-aside>
-        <el-row class="tac">
-          <el-col :span="12">
+      <el-aside style="width: available">
+        <el-row style="height: 100%">
+          <el-col :span="24" style="height: 100%">
             <el-menu
               default-active="0"
               class="el-menu-vertical-demo"
@@ -22,36 +22,47 @@
               background-color="#545c64"
               text-color="#fff"
               active-text-color="#ffd04b"
-              :collapse="false">
+              :collapse="false"
+              >
               <el-menu-item index="1">
-                <a href="/">
-                  <i class="el-icon-search"></i>
-                  <span slot="title" class="menu-item">搜索</span>
-                </a>
+                <div class="el-menu-item-div">
+                  <a href="/">
+                    <i class="el-icon-search"></i>
+                    <span slot="title" class="menu-item">搜索</span>
+                  </a>
+                </div>
               </el-menu-item>
               <el-menu-item index="2">
-                <a href="/scholar">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title" class="menu-item">学者主页</span>
-                </a>
+                <div class="el-menu-item-div">
+                  <a href="/scholar">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title" class="menu-item">学者主页</span>
+                  </a>
+                </div>
               </el-menu-item>
               <el-menu-item index="3">
-                <a href="collection">
-                  <i class="el-icon-document"></i>
-                  <span slot="title" class="menu-item">收藏</span>
-                </a>
+                <div class="el-menu-item-div">
+                  <a href="collection">
+                    <i class="el-icon-document"></i>
+                    <span slot="title" class="menu-item">收藏</span>
+                  </a>
+                </div>
               </el-menu-item>
               <el-menu-item index="4">
-                <a href="purchase">
-                  <i class="el-icon-check"></i>
-                  <span slot="title" class="menu-item">购买</span>
-                </a>
+                <div class="el-menu-item-div">
+                  <a href="purchase">
+                    <i class="el-icon-check"></i>
+                    <span slot="title" class="menu-item">购买</span>
+                  </a>
+                </div>
               </el-menu-item>
               <el-menu-item index="5">
-                <a href="/user">
-                  <i class="el-icon-setting"></i>
-                  <span slot="title" class="menu-item">个人中心</span>
-                </a>
+                <div class="el-menu-item-div">
+                  <a href="/user">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title" class="menu-item">个人中心</span>
+                  </a>
+                </div>
               </el-menu-item>
             </el-menu>
           </el-col>
@@ -91,8 +102,14 @@ export default {
 </script>
 
 <style>
-  .el-menu-item{
-    position: relative;
+  .el-menu-item-div{
+    float: left;
+  }
+  .back-container{
+    height: inherit;
+  }
+  .el-menu-vertical-demo{
+    height: inherit;
   }
   .menu-item{
     color: white;
