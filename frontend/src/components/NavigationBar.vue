@@ -59,14 +59,14 @@
     </el-aside>
     <el-container>
       <el-header>
-        <el-menu :default-active="activeIndex" mode="horizontal" style="float:right">
-          <el-menu-item index="1" @click="loginDialogVisable = true" v-if="userID === null">登录/注册</el-menu-item>
-          <el-submenu index="2" v-if="userID !== null">
-            <template slot="title">{{username}}</template>
-            <el-menu-item index="2-1">个人主页</el-menu-item>
-            <el-menu-item index="2-2" @click="userID = null; usename = '' ">退出登录</el-menu-item>
-          </el-submenu>
-        </el-menu>
+        <div style="width: 100%;height: 100%; text-align: left; padding: 20px">
+          <div style="width: 30%; display: inline-block"><img src="assets/logo.png"></div>
+          <div class="ui icon input" style="width: 50%">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+          </div>
+        </div>
+        <el-divider></el-divider>
       </el-header>
       <el-main>
         <router-view></router-view>

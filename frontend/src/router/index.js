@@ -4,6 +4,7 @@ import Index from '@/views/Index'
 import Menu from '@/components/NavigationBar'
 import Card from '@/components/Card'
 import User from '@/views/User'
+import Purchase from '@/views/Purchase'
 
 Vue.use(Router)
 
@@ -23,7 +24,8 @@ export default new Router({
       },
       children: [
         {path: 'Card', component: Card},
-        {path: 'User', component: User}
+        {path: 'User', component: User},
+        {path: 'Purchase', component: Purchase}
       ]
     }
   ]
