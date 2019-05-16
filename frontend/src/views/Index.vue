@@ -70,7 +70,7 @@
             <el-option label="订单号" value="2"> </el-option>
             <el-option label="用户电话" value="3"> </el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search">搜索</el-button>
+          <el-button slot="append" icon="el-icon-search" @click="jump">搜索</el-button>
         </el-input>
       </div>
     </el-container>
@@ -157,6 +157,10 @@ export default {
     }
   },
   methods: {
+    jump () {
+      const searchText = this.input3
+      this.$router.push({path: '/home/search', query: {id: searchText}})
+    },
     login () {
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
