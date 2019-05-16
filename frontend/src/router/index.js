@@ -23,9 +23,9 @@ const router = new Router({
         default: Menu
       },
       children: [
-        {path: 'User', component: User},
-        {path: 'Purchase', component: Purchase},
-        {path: 'Search', component: Search}
+        {path: '/User', component: User},
+        {path: '/Purchase', component: Purchase},
+        {path: '/Search', component: Search}
       ]
     }
   ]

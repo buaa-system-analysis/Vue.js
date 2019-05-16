@@ -2,8 +2,7 @@
     <div style="display: inline-block; width: 50%; vertical-align: top; ">
       <ul>
         <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">找到约{{total}}条结果</p></li>
-        <li><el-button v-on:click="search"></el-button></li>
-        <li v-for="item in paperList.slice(10*(currentPage-1), 10*currentPage)" :key="item">
+        <li v-for="item in paperList.slice(10*(currentPage-1), 10*currentPage)">
           <div style="width: 100%; border-color: darkgray; border-style: solid; border-width: 0 0 1px 0;text-align: left">
             <el-link :underline="false" style="display: block; font-size: 24px; height: min-content; margin: 10px">
               {{item['title']}}
@@ -104,7 +103,7 @@ export default {
   mounted: function () {
     if (this.$route.query.id != null) {
       alert(this.$route.query.id)
-      /* this.methods.search(this.$route.query.id) */
+      this.search()
     }
   },
   methods: {

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 30px; padding: 0 12% 0 12%">
+  <div style="margin-top: 30px; padding: 0 17% 0 17%">
     <el-tabs v-model="activeName">
       <el-tab-pane label="单篇购买" name="first">
         <p style="color: black; font-size: 24px; float: left;">文献搜索</p>
@@ -12,7 +12,7 @@
           <span>合作机构</span>
         </el-divider>
 
-        <div class="ui cards" style="width: 100%; margin: 5px;">
+        <div class="ui cards" style="width: 100%; margin: 5px; text-align: left">
           <div class="card">
             <div class="content">
               <a href="https://www.baidu.com">
@@ -183,14 +183,14 @@
               </span>
             </div>
           </div>
-          <div style="height: 100%; display: inline-block; width: 68%; padding: 10px; vertical-align: top">
+          <div style="height: 100%; display: inline-block; width: 66%; padding: 10px; vertical-align: top">
             <el-table
               :data="tableData"
               stripe>
               <el-table-column
                 prop="goods"
                 label="商品名称"
-                width="400%">
+                width="360%">
               </el-table-column>
               <el-table-column
                 prop="price"
