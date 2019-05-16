@@ -203,6 +203,13 @@
                 width="100%">
               </el-table-column>
             </el-table>
+            <div class="block">
+              <el-pagination
+                layout="prev, pager, next"
+                :hide-on-single-page="true"
+                :total="totalItem">
+              </el-pagination>
+            </div>
           </div>
         </div>
       </el-tab-pane>
@@ -235,13 +242,12 @@ export default {
           price: 5,
           date: '2019-3-14'
         }
-      ]
+      ],
+      totalItem: 0
     }
   },
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
-    }
+
   }
 }
 </script>

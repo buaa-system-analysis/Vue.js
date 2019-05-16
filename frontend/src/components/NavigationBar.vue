@@ -1,55 +1,54 @@
 <template lang="html">
   <el-container style="height: 100%; width: 100%">
-    <el-aside style="width: auto">
+    <el-aside style="width: auto; height: 100%; position: absolute; padding: 0" @mouseenter.native="isCollapse=false"
+              @mouseleave.native="isCollapse=true">
       <el-row style="height: 100%">
         <el-menu
           default-active="0"
           class="el-menu-vertical-demo"
-          background-color="#545c64"
+          background-color="#EDE9E9"
           text-color="#fff"
-          active-text-color="#ffd04b"
-          @click="setcollapse"
-          :collapse="isCollapse"
-          :collapse-transition="true"
-          @open="handleOpen"
-          @close="handleClose"
-        >
+          style="margin-right:10px"
+          :collapse="isCollapse">
+          <el-menu-item style="padding: 0; height: 79px;">
+            <div style="height: 100%; width: 100%; background-color: darkorange"></div>
+          </el-menu-item>
           <el-menu-item index="1" style="padding: 0">
             <div class="el-menu-item-div">
-              <a href="/" style="display: block;width: inherit; height: inherit; padding-left: 10%; padding-right: 20%">
-                <i class="el-icon-search"></i>
+              <a href="/" style="display: inline-block;width: 100%; height: 100%;">
+                <i class="el-icon-search" style="color: darkorange"></i>
                 <span slot="title" class="menu-item">搜索</span>
               </a>
             </div>
           </el-menu-item>
           <el-menu-item index="2" style="padding: 0">
             <div class="el-menu-item-div">
-              <a href="/scholar" style="display: block;width: inherit; height: inherit; padding-left: 10%; padding-right: 20%">
-                <i class="el-icon-reading"></i>
+              <a href="scholar" style="display: inline-block;width: 100%; height: 100%;">
+                <i class="el-icon-reading" style="color: darkorange"></i>
                 <span slot="title" class="menu-item">学者主页</span>
               </a>
             </div>
           </el-menu-item>
           <el-menu-item index="3" style="padding: 0">
             <div class="el-menu-item-div">
-              <a href="collection" style="display: block;width: inherit; height: inherit; padding-left: 10%; padding-right: 20%">
-                <i class="el-icon-collection"></i>
+              <a href="collection" style="display: inline-block;width: 100%; height: 100%;">
+                <i class="el-icon-collection" style="color: darkorange"></i>
                 <span slot="title" class="menu-item">收藏</span>
               </a>
             </div>
           </el-menu-item>
           <el-menu-item index="4" style="padding: 0">
             <div class="el-menu-item-div">
-              <a href="purchase" style="display: block;width: inherit; height: inherit; padding-left: 10%; padding-right: 20%">
-                <i class="el-icon-goods"></i>
+              <a href="purchase" style="display: inline-block;width: 100%; height: 100%;">
+                <i class="el-icon-goods" style="color: darkorange"></i>
                 <span slot="title" class="menu-item">购买</span>
               </a>
             </div>
           </el-menu-item>
           <el-menu-item index="5" style="padding: 0">
             <div class="el-menu-item-div">
-              <a href="/user" style="display: block;width: inherit; height: inherit; padding-left: 10%; padding-right: 20%">
-                <i class="el-icon-user"></i>
+              <a href="user" style="display: inline-block;width: 100%; height: 100%;">
+                <i class="el-icon-user" style="color: darkorange"></i>
                 <span slot="title" class="menu-item">个人中心</span>
               </a>
             </div>
@@ -57,16 +56,16 @@
         </el-menu>
       </el-row>
     </el-aside>
-    <el-container>
-      <el-header>
-        <div style="width: 100%;height: 100%; text-align: left; padding: 20px">
+    <el-container style="height: 100%; width: 100%">
+      <el-header style="height: auto">
+        <div style="width: 100%; text-align: left; padding: 20px;
+            border-color: lightgray; border-style: solid; border-width: 0 0 1px 0">
           <div style="width: 30%; display: inline-block"><img src="assets/logo.png"></div>
           <div class="ui icon input" style="width: 50%">
             <input type="text" placeholder="Search...">
             <i class="search icon"></i>
           </div>
         </div>
-        <el-divider></el-divider>
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -100,27 +99,38 @@ export default {
   el: '#Menu',
   data () {
     return {
-      isCollapse: false
+      isCollapse: true
     }
   },
   methods: {
-    setcollapse () {
-      this.isCollapse = true
-    }
   }
 }
 </script>
 
 <style>
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 0 !important;height: 0;
+  }
   .el-menu-item-div{
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    text-align: left;
+    margin-left: 10px;
   }
   .el-menu-vertical-demo{
     height: 100%;
+    width: auto;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 120px;
+    height: 100%;
   }
   .menu-item{
-    color: white;
+    color: #475669;
   }
   h3{
     color: #F56C6C;
@@ -129,7 +139,6 @@ export default {
     background-color: darkgray;
   }
   .foottext{
-    font-family: "Microsoft YaHei", "微软雅黑";
     color: #409EFF;
   }
 </style>

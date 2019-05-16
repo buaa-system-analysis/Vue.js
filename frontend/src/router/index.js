@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/views/Index'
 import Menu from '@/components/NavigationBar'
-import Card from '@/components/Card'
 import User from '@/views/User'
 import Purchase from '@/views/Purchase'
+import Search from '@/views/Search'
 
 Vue.use(Router)
 
@@ -23,9 +23,9 @@ const router = new Router({
         default: Menu
       },
       children: [
-        {path: 'Card', component: Card},
         {path: 'User', component: User},
-        {path: 'Purchase', component: Purchase}
+        {path: 'Purchase', component: Purchase},
+        {path: 'Search', component: Search}
       ]
     }
   ]
