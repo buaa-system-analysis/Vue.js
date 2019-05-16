@@ -103,17 +103,13 @@ export default {
   },
   methods: {
     search () {
-      this.$axios({
-        url: 'http://106.14.150.33/api/search/paper',
-        method: 'post',
-        data: JSON.stringify({
-          'keyword': 'GAN'
-        })
-      }).then(res => {
-        this.paperList = res.data
-      })
+          let postData = {
+            'keyword': 'GAN'
+          }
+          this.$axios.post('/search/paper', postData).then((response) => {
+            this.paperList= response.data['data']['result']
+          })
     },
-
     current_change:function(currentPage){
       this.currentPage = currentPage;
     },
