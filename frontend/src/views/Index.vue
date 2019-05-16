@@ -1,13 +1,24 @@
 <template>
   <el-container>
     <el-header>
-      <el-menu :default-active="activeIndex" mode="horizontal" style="float:right">
-        <el-menu-item index="1" @click="loginDialogVisable = true" v-if="userID === null">登录/注册</el-menu-item>
-        <el-submenu index="2" v-if="userID !== null">
+      <el-menu :default-active="activeIndex" mode="horizontal">
+        <el-menu-item index="0">
+          <div class="block" style="height: 100% ;width:80%">
+            <router-link to='/'>
+              <img src="../assets/timg.jpg" height="55px">
+            </router-link>
+          </div>
+        </el-menu-item>
+        <el-menu-item index="2" @click="loginDialogVisable = true" v-if="userID === null" style="float:right">登录/注册</el-menu-item>
+        <el-submenu index="2" v-if="userID !== null" style="float:right">
           <template slot="title">{{username}}</template>
-          <el-menu-item index="2-1">个人主页</el-menu-item>
-          <el-menu-item index="2-2" @click="userID = null;usename = '' ">退出登录</el-menu-item>
+          <el-menu-item index="2-1">个人中心</el-menu-item>
+          <el-menu-item index="2-2">已购买文献</el-menu-item>
+          <el-menu-item index="2-3" @click="userID = null;usename = '' ">退出登录</el-menu-item>
         </el-submenu>
+        <el-menu-item index="1" style="float:right">
+          <el-input prefix-icon="el-icon-search"></el-input>
+        </el-menu-item>
         <el-dialog title="登录/注册" :visible.sync="loginDialogVisable" width="30%">
           <el-tabs v-model="whichDialogTab" stretch>
             <el-tab-pane label="登录" name="login">
@@ -140,57 +151,47 @@ export default {
       },
       userID: null,
       username: '',
-      activeIndex: '1',
+      activeIndex: '2',
       input3: '',
       select: ''
     }
   },
   methods: {
     login () {
-      /*
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
-          let data = {
+          let postData = {
             'username': this.loginForm.username,
             'password': this.loginForm.password
           }
-          this.$http.post('http://localhost:5015/api/user/login', data).then((res) => {
-            data = res.json()
+          this.$axios.post('/user/login', postData).then((response) => {
+            let data = response.data
             if (data['code'] === 100) {
               this.username = this.loginForm.username
               this.userID = data['data']['userID']
               this.loginDialogVisable = false
-            } else if (data['code'] === 102) {
-              this.$message.error('登录时未找到⽤户名')
-              return false
-            } else if (data['code'] === 103) {
-              this.$message.error('登录密码错误')
-              return false
             } else {
-              this.$message.error('网络错误或其他未知错误')
+              this.$message.error('错误')
               return false
             }
+          }).catch((response) => {
+            console.log(response)
           })
         } else {
           return false
         }
       })
-      */
-      this.username = this.loginForm.username
-      this.userID = 1
-      this.loginDialogVisable = false
     },
     register () {
-      /*
       this.$refs['registerForm'].validate((valid) => {
         if (valid) {
-          let data = {
+          let postData = {
             'username': this.registerForm.username,
-            'password': this.registerForm.password,
+            'password': this.registerForm.password1,
             'email': this.registerForm.email
           }
-          this.$http.post('http://localhost:5015/api/user/login', data).then((res) => {
-            data = res.json()
+          this.$axios.post('/user/register', postData).then((response) => {
+            let data = response.data
             if (data['code'] === 100) {
               this.username = this.registerForm.username
               this.userID = data['data']['userID']
@@ -204,10 +205,6 @@ export default {
           return false
         }
       })
-      */
-      this.username = this.loginForm.username
-      this.userID = 1
-      this.loginDialogVisable = false
     }
   }
 }

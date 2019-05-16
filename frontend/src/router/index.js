@@ -8,7 +8,7 @@ import Purchase from '@/views/Purchase'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -30,3 +30,28 @@ export default new Router({
     }
   ]
 })
+
+export default router
+
+// export default new Router({
+//   mode: 'history',
+//   routes: [
+//     {
+//       path: '/',
+//       components: {
+//         default: Index
+//       }
+//     },
+//     {
+//       path: '/home',
+//       components: {
+//         default: Menu
+//       },
+//       children: [
+//         {path: 'Card', component: Card},
+//         {path: 'User', component: User},
+//         {path: 'Purchase', component: Purchase}
+//       ]
+//     }
+//   ]
+// })
