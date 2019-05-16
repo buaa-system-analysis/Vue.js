@@ -8,7 +8,9 @@ import SuiVue from 'semantic-ui-vue'
 import 'semantic-ui-css/semantic.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
+import axios from 'axios'
 
+Vue.prototype.$axios = axios
 Vue.use(SuiVue)
 Vue.use(ElementUI)
 Vue.use(VueResource)

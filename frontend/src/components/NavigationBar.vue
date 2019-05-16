@@ -10,7 +10,7 @@
           text-color="#fff"
           style="margin-right:10px"
           :collapse="isCollapse">
-          <el-menu-item style="padding: 0; height: 84px;">
+          <el-menu-item style="padding: 0; height: 79px;">
             <div style="height: 100%; width: 100%; background-color: darkorange"></div>
           </el-menu-item>
           <el-menu-item index="1" style="padding: 0">
@@ -57,15 +57,15 @@
       </el-row>
     </el-aside>
     <el-container style="height: 100%; width: 100%">
-      <el-header>
-        <div style="width: 100%;height: 100%; text-align: left; padding: 20px">
+      <el-header style="height: auto">
+        <div style="width: 100%; text-align: left; padding: 20px;
+            border-color: lightgray; border-style: solid; border-width: 0 0 1px 0">
           <div style="width: 30%; display: inline-block"><img src="assets/logo.png"></div>
           <div class="ui icon input" style="width: 50%">
             <input type="text" placeholder="Search...">
             <i class="search icon"></i>
           </div>
         </div>
-        <el-divider></el-divider>
       </el-header>
       <el-main>
         <router-view></router-view>
