@@ -1,6 +1,6 @@
 <template lang="html">
   <el-container style="height: 100%; width: 100%">
-    <el-aside style="width: auto" @mouseenter.native="isCollapse=false"
+    <el-aside style="width: auto; height: 100%; position: absolute; padding: 0" @mouseenter.native="isCollapse=false"
               @mouseleave.native="isCollapse=true">
       <el-row style="height: 100%">
         <el-menu
@@ -8,11 +8,10 @@
           class="el-menu-vertical-demo"
           background-color="#EDE9E9"
           text-color="#fff"
+          style="margin-right:10px"
           :collapse="isCollapse">
-          <el-menu-item style="padding: 0; height: 85px;">
-            <div style="height: 100%; width: 100%; background-color: darkorange">
-
-            </div>
+          <el-menu-item style="padding: 0; height: 84px;">
+            <div style="height: 100%; width: 100%; background-color: darkorange"></div>
           </el-menu-item>
           <el-menu-item index="1" style="padding: 0">
             <div class="el-menu-item-div">
@@ -57,7 +56,7 @@
         </el-menu>
       </el-row>
     </el-aside>
-    <el-container>
+    <el-container style="height: 100%; width: 100%">
       <el-header>
         <div style="width: 100%;height: 100%; text-align: left; padding: 20px">
           <div style="width: 30%; display: inline-block"><img src="assets/logo.png"></div>
@@ -109,6 +108,12 @@ export default {
 </script>
 
 <style>
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 0 !important;height: 0;
+  }
   .el-menu-item-div{
     width: 100%;
     height: 100%;
@@ -118,6 +123,7 @@ export default {
   }
   .el-menu-vertical-demo{
     height: 100%;
+    width: auto;
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 120px;
@@ -133,7 +139,6 @@ export default {
     background-color: darkgray;
   }
   .foottext{
-    font-family: "Microsoft YaHei", "微软雅黑";
     color: #409EFF;
   }
 </style>
