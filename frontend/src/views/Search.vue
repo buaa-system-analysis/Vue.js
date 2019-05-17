@@ -3,19 +3,22 @@
       <ul>
         <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">找到约{{total}}条结果</p></li>
         <li v-for="item in paperList.slice(10*(currentPage-1), 10*currentPage)">
-          <div style="width: 100%; border-color: darkgray; border-style: solid; border-width: 0 0 1px 0;text-align: left">
-            <el-link :underline="false" style="display: block; font-size: 24px; height: min-content; margin: 10px">
+          <div style="width: 100%; padding-top: 20px;
+          border-color: darkgray; border-style: solid; border-width: 0 0 1px 0;text-align: left">
+            <el-link :underline="false" style="display: block; font-size: 24px; height: min-content; margin: 5px; line-height: 120%">
               {{item['title']}}
             </el-link>
             <p style="color: black; display: -webkit-box;
-              -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden; margin: 10px">
-              {{item['authors']}}
+              -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
+              <li style="display: inline-block" v-for="author in item['authors']">
+                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}</span>
+              </li>
             </p>
             <p style="color: darkgrey; display: -webkit-box;
-              -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 10px">
+              -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">
               {{item['abstract']}}
             </p>
-            <el-row style="padding: 10px">
+            <el-row style="padding: 10px 0 10px 0">
               <el-button type="warning" icon="el-icon-star-off" round>收藏</el-button>
               <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
               <el-button type="warning" icon="el-icon-download" round>下载</el-button>
