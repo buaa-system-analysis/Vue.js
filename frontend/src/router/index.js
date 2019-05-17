@@ -5,6 +5,7 @@ import Menu from '@/components/NavigationBar'
 import User from '@/views/User'
 import Purchase from '@/views/Purchase'
 import Search from '@/views/Search'
+import ResourceDisplay from '@/views/ResourceDisplay'
 
 Vue.use(Router)
 
@@ -25,7 +26,8 @@ const router = new Router({
       children: [
         {path: '/User', component: User},
         {path: '/Purchase', component: Purchase},
-        {path: '/Search', component: Search}
+        {path: '/Search', component: Search},
+        {path: '/Resource', component: ResourceDisplay}
       ]
     }
   ]

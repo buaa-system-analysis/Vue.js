@@ -41,68 +41,11 @@ export default {
   data () {
     return {
       currentPage: 1,
-      paperList: [
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        },
-        {
-          title: 'GAN',
-          authors: 'Xinhang Li',
-          abstract: 'This is a paper about GAN'
-        }
-      ]
+      paperList: []
     }
   },
   mounted: function () {
     if (this.$route.query.id != null) {
-      alert(this.$route.query.id)
       this.search()
     }
   },
