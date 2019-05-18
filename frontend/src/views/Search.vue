@@ -72,6 +72,7 @@ export default {
         path: '/resource',
         query: {
           title: data['title'],
+          paper_id: data['paper_id'],
           url: data['fulltextURL'],
           authors: data['authors'],
           abstract: data['abstract'],
