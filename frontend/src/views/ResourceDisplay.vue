@@ -1,13 +1,15 @@
 <template>
   <div style="margin-top: 30px; padding: 0 25% 0 25%; text-align: left">
     <div style="width: 100%">
-      <a :href="url" style="font-size: 32px; font-weight: bold">{{title}}</a>
+      <a :href="url" style="font-size: 32px; font-weight: bold; line-height: 120%">{{title}}</a>
       <el-row style="text-align: left; width: 100%; padding: 40px 0 5px 0">
         <el-col :span="3">
           <span style="color: darkgrey">作者:</span>
         </el-col>
         <el-col :span="21">
-          <span style="color: #409EFF">{{authors}}</span>
+          <li style="display: inline-block" v-for="author in authors">
+            <span style="padding-right: 10px; color: #409EFF">{{author}}</span>
+          </li>
         </el-col>
       </el-row>
       <el-row style="text-align: left; width: 100%; padding: 5px 0 5px 0">
@@ -43,13 +45,15 @@
           <span style="color: darkgrey;">被引量:</span>
         </el-col>
         <el-col :span="21">
-          <span style="color: #409EFF">{{citations}}</span>
+          <span style="color: #409EFF">{{citation}}</span>
         </el-col>
       </el-row>
       <el-row style="padding-top: 20px">
         <el-button type="warning" icon="el-icon-star-off" round>收藏</el-button>
         <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
-        <el-button type="warning" icon="el-icon-download" round>下载</el-button>
+        <a :href="url" style="padding-left: 10px">
+          <el-button type="warning" icon="el-icon-download" round>下载</el-button>
+        </a>
       </el-row>
     </div>
     <Comment></Comment>
@@ -75,13 +79,21 @@ export default {
         'EECS',
       ],
       doi: '10.1116/1.585897',
-      citations: '1836'
+      citation: '1836'
     }
   },
   components: {
     Comment
-  }
-  ,
+  },
+  mounted: function () {
+    this.title = this.$route.query.title
+    this.authors = this.$route.query.authors
+    this.url = this.$route.query.url
+    this.abstract = this.$route.query.abstract
+    this.keywords = this.$route.query.keywords
+    this.doi = this.$route.query.doi
+    this.citation = this.$route.query.citation
+  },
   methods: {
   }
 }

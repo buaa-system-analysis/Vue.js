@@ -2,10 +2,11 @@
     <div style="display: inline-block; width: 50%; vertical-align: top; ">
       <ul>
         <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">找到约{{total}}条结果</p></li>
-        <li v-for="item in paperList.slice(10*(currentPage-1), 10*currentPage)" :key="item">
+        <li v-for="(item, index) in paperList.slice(10*(currentPage-1), 10*currentPage)" :key="index">
           <div style="width: 100%; padding-top: 20px;
           border-color: darkgray; border-style: solid; border-width: 0 0 1px 0;text-align: left">
-            <el-link :underline="false" style="display: block; font-size: 24px; height: min-content; margin: 5px; line-height: 120%">
+            <el-link :underline="false" v-on:click="jump(index)"
+                     style="display: block; font-size: 24px; height: min-content; margin: 5px; line-height: 120%">
               {{item['title']}}
             </el-link>
             <p style="color: black; display: -webkit-box;
@@ -21,7 +22,9 @@
             <el-row style="padding: 10px 0 10px 0">
               <el-button type="warning" icon="el-icon-star-off" round>收藏</el-button>
               <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
-              <el-button type="warning" icon="el-icon-download" round>下载</el-button>
+              <a :href="item['fulltextURL']" style="padding-left: 10px">
+                <el-button type="warning" icon="el-icon-download" round>下载</el-button>
+              </a>
             </el-row>
           </div>
         </li>
@@ -63,6 +66,22 @@ export default {
     },
     current_change: function (currentPage) {
       this.currentPage = currentPage
+    },
+    jump: function (index) {
+      let data = this.paperList[(this.currentPage-1)*10 + index]
+      let routeData = this.$router.resolve({
+        path: '/resource',
+        query: {
+          title: data['title'],
+          url: data['fulltextURL'],
+          authors: data['authors'],
+          abstract: data['abstract'],
+          keywords: data['field'],
+          doi: data['publishment'],
+          citation: data['citation']
+        }
+      })
+      window.open(routeData.href, '_blank')
     }
   },
   computed: {
