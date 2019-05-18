@@ -6,6 +6,7 @@ import User from '@/views/User'
 import Purchase from '@/views/Purchase'
 import Search from '@/views/Search'
 import ResourceDisplay from '@/views/ResourceDisplay'
+import Scholar from '@/views/Scholar'
 
 Vue.use(Router)
 
@@ -27,7 +28,8 @@ const router = new Router({
         {path: '/User', component: User},
         {path: '/Purchase', component: Purchase},
         {path: '/Search', component: Search},
-        {path: '/Resource', component: ResourceDisplay}
+        {path: '/Resource', component: ResourceDisplay},
+        {path: '/Scholar', component: Scholar}
       ],
       meta: {
         requireAuth: true

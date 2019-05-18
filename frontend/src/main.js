@@ -13,7 +13,6 @@ import axios from 'axios'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-Vue.prototype.$axios = axios
 Vue.use(SuiVue)
 Vue.use(ElementUI)
 Vue.use(VueResource)
