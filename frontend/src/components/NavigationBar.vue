@@ -3,7 +3,7 @@
     <el-container style="height: 100%; width: 100%">
       <Header></Header>
       <el-main>
-        <router-view></router-view>
+        <router-view v-if="isRouterAlive"></router-view>
       </el-main>
       <el-footer class="footcon">
         <el-row>
@@ -37,12 +37,26 @@ export default {
   el: '#Menu',
   data () {
     return {
-      isCollapse: true
+      isCollapse: true,
+      isRouterAlive: true
+    }
+  },
+  provide() {
+    return{
+      reload: this.reload
     }
   },
   components: {
     Header,
     Aside
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
   }
 }
 </script>
