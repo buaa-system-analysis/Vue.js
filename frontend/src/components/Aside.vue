@@ -10,7 +10,9 @@
         style="margin-right:10px"
         :collapse="isCollapse">
         <el-menu-item style="padding: 0; height: 61px;">
-          <div style="height: 100%; width: 100%; background-color: darkorange"></div>
+          <div style="height: 100%; width: 100%; background-color: darkorange">
+            <i class="el-icon-menu" style="color: white"></i>
+          </div>
         </el-menu-item>
         <el-menu-item index="1" style="padding: 0">
           <div class="el-menu-item-div">

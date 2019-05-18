@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <div style="width: 100%; padding: 0 20px 0 20px">
-      <el-menu :default-active="activeIndex" mode="horizontal">
+      <el-menu mode="horizontal">
         <el-menu-item index="0">
         <div class="block" style="height: 100% ;width:30%; margin-left: 50%">
           <router-link to='/'>
@@ -129,7 +129,6 @@ export default {
       },
       userID: this.$store.state.userID,
       username: '',
-      activeIndex: '2',
       input3: '',
       select: ''
     }
