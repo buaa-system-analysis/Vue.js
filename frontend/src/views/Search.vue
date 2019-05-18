@@ -11,10 +11,9 @@
             </el-link>
             <p style="color: black; display: -webkit-box;
               -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
-              <li style="display: inline-block" v-for="author in item['authors']">
+              <li style="display: inline-block" v-for="author in item['authors']" :key='author'>
                 <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}</span>
               </li>
-            </p>
             <p style="color: darkgrey; display: -webkit-box;
               -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">
               {{item['abstract']}}
@@ -68,7 +67,7 @@ export default {
       this.currentPage = currentPage
     },
     jump: function (index) {
-      let data = this.paperList[(this.currentPage-1)*10 + index]
+      let data = this.paperList[(this.currentPage - 1) * 10 + index]
       let routeData = this.$router.resolve({
         path: '/resource',
         query: {

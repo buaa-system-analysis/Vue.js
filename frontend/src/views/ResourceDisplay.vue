@@ -7,7 +7,7 @@
           <span style="color: darkgrey">作者:</span>
         </el-col>
         <el-col :span="21">
-          <li style="display: inline-block" v-for="author in authors">
+          <li style="display: inline-block" v-for="author in authors" :key="author">
             <span style="padding-right: 10px; color: #409EFF">{{author}}</span>
           </li>
         </el-col>
@@ -26,7 +26,7 @@
           <span style="color: darkgrey;">关键词:</span>
         </el-col>
         <el-col :span="21">
-          <li style="display: inline-block" v-for="item in keywords">
+          <li style="display: inline-block" v-for="item in keywords" :key="item">
             <span style="padding-right: 20px; color: #409EFF">{{item}}</span>
           </li>
         </el-col>
@@ -76,7 +76,7 @@ export default {
       keywords: [
         'Crystal structure',
         'Crystal growth',
-        'EECS',
+        'EECS'
       ],
       doi: '10.1116/1.585897',
       citation: '1836'

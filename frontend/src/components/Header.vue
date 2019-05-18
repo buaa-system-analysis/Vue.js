@@ -16,7 +16,7 @@
           <el-menu-item index="2-2">已购买文献</el-menu-item>
           <el-menu-item index="2-3" @click="logout">退出登录</el-menu-item>
         </el-submenu>
-        <el-menu-item index="1" style="float:right">
+        <el-menu-item index="1" style="float:right" v-if="this.$route.path !== '/'">
           <el-input v-model="input3">
             <el-button slot="append" icon="el-icon-search" @click="jump">搜索</el-button>
           </el-input>

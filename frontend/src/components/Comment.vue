@@ -1,7 +1,7 @@
 <template>
   <div class="ui comments">
     <h3 class="ui dividing header">Comments</h3>
-    <div class="comment" v-for="item in comments">
+    <div class="comment" v-for="item in comments" :key="item">
       <a class="avatar"><img :src="item['img']"></a>
       <div class="content">
         <a class="author">{{item['user']}}</a>
