@@ -38,13 +38,13 @@ export default {
     }
   },
   components: {
-    Header,
+    Header
   },
   methods: {
     jump () {
       const searchText = this.input3
       this.$router.push({path: '/search', query: {id: searchText}})
-    },
+    }
   }
 }
 </script>

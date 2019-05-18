@@ -9,12 +9,12 @@
           </router-link>
         </div>
         </el-menu-item>
-        <el-menu-item index="2" @click="loginDialogVisable = true" v-if="userID === null" style="float:right">登录/注册</el-menu-item>
-        <el-submenu index="2" v-if="userID !== null" style="float:right">
-          <template slot="title">{{username}}</template>
+        <el-menu-item index="2" @click="loginDialogVisable = true" v-if="this.$store.state.userID === null" style="float:right">登录/注册</el-menu-item>
+        <el-submenu index="2" v-else style="float:right">
+          <template slot="title">{{this.$store.state.username}}</template>
           <el-menu-item index="2-1">个人中心</el-menu-item>
           <el-menu-item index="2-2">已购买文献</el-menu-item>
-          <el-menu-item index="2-3" @click="userID = null;usename = '' ">退出登录</el-menu-item>
+          <el-menu-item index="2-3" @click="logout">退出登录</el-menu-item>
         </el-submenu>
         <el-menu-item index="1" style="float:right">
           <el-input v-model="input3">
@@ -127,7 +127,7 @@ export default {
           { validator: validatePass2, trigger: 'blur' }
         ]
       },
-      userID: null,
+      userID: this.$store.state.userID,
       username: '',
       activeIndex: '2',
       input3: '',
@@ -152,6 +152,10 @@ export default {
               this.username = this.loginForm.username
               this.userID = data['data']['userID']
               this.loginDialogVisable = false
+              localStorage.setItem('username', this.loginForm.username)
+              this.$store.commit('SET_Username', this.loginForm.username)
+              localStorage.setItem('userID', data['data']['userID'])
+              this.$store.commit('SET_UserID', data['data']['userID'])
             } else {
               this.$message.error('错误')
               return false
@@ -187,6 +191,10 @@ export default {
           return false
         }
       })
+    },
+    logout () {
+      localStorage.removeItem('userID')
+      this.$store.commit('SET_UserID', null)
     }
   }
 }

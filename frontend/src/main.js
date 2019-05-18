@@ -2,14 +2,17 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/index'
+import store from './router/store'
 import ElementUI from 'element-ui'
 import SuiVue from 'semantic-ui-vue'
 import 'semantic-ui-css/semantic.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
 import axios from 'axios'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 Vue.prototype.$axios = axios
 Vue.use(SuiVue)
 Vue.use(ElementUI)
@@ -23,5 +26,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

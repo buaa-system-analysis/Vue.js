@@ -42,8 +42,8 @@ export default {
   },
   components: {
     Header,
-    Aside,
-  },
+    Aside
+  }
 }
 </script>
 

@@ -26,32 +26,11 @@ const router = new Router({
         {path: '/User', component: User},
         {path: '/Purchase', component: Purchase},
         {path: '/Search', component: Search}
-      ]
+      ],
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 })
-
 export default router
-
-// export default new Router({
-//   mode: 'history',
-//   routes: [
-//     {
-//       path: '/',
-//       components: {
-//         default: Index
-//       }
-//     },
-//     {
-//       path: '/home',
-//       components: {
-//         default: Menu
-//       },
-//       children: [
-//         {path: 'Card', component: Card},
-//         {path: 'User', component: User},
-//         {path: 'Purchase', component: Purchase}
-//       ]
-//     }
-//   ]
-// })
