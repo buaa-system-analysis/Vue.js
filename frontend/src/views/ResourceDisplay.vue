@@ -7,7 +7,7 @@
           <span style="color: darkgrey">作者:</span>
         </el-col>
         <el-col :span="21">
-          <li style="display: inline-block" v-for="author in authors" :key="author">
+          <li style="display: inline-block" v-for="(author, index) in authors" :key="index">
             <span style="padding-right: 10px; color: #409EFF">{{author}}</span>
           </li>
         </el-col>
@@ -26,7 +26,7 @@
           <span style="color: darkgrey;">关键词:</span>
         </el-col>
         <el-col :span="21">
-          <li style="display: inline-block" v-for="item in keywords" :key="item">
+          <li style="display: inline-block" v-for="(item, index) in keywords" :key="index">
             <span style="padding-right: 20px; color: #409EFF">{{item}}</span>
           </li>
         </el-col>
@@ -67,6 +67,7 @@ export default {
   data () {
     return {
       title: 'Attention is all you need',
+      paper_id: '123456',
       url: 'https://www.baidu.com',
       authors: 'Xinhang Li',
       abstract: 'We review recent research results pertaining to GaN, AIN and InN, focusing on present-day techniques and future prospects. ' +
@@ -87,6 +88,7 @@ export default {
   },
   mounted: function () {
     this.title = this.$route.query.title
+    this.paper_id = this.$route.query.paper_id
     this.authors = this.$route.query.authors
     this.url = this.$route.query.url
     this.abstract = this.$route.query.abstract
