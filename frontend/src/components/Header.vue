@@ -137,6 +137,7 @@ export default {
     jump () {
       const searchText = this.input3
       this.$router.push({path: '/search', query: {id: searchText}})
+      window.location.reload()
     },
     login () {
       this.$refs['loginForm'].validate((valid) => {
