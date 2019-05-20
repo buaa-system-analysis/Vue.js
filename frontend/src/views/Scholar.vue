@@ -125,7 +125,29 @@
         </el-row>
         <el-divider></el-divider>
         <el-row>
+          <el-tabs :tab-position="'left'">
+            <el-tab-pane label="Paper">
+              <el-row style="text-align: left; padding-bottom: 20px" v-for="item in scholarPaper" :key="item">
+                <el-col :span="20">
+                  <el-row style="color: black; font-size: 16px; font-weight: bold; padding-bottom: 5px">
+                    {{item['title']}}
+                  </el-row>
+                  <el-row style="color: #475669; font-size: 12px">
+                    {{item['year']}} - {{item['authors']}} - {{item['publishment']}}
+                  </el-row>
+                </el-col>
+                <el-col :span="4">
+                  <el-button type="warning" icon="el-icon-trash" round>删除</el-button>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="Patent">
 
+            </el-tab-pane>
+            <el-tab-pane label="Project">
+
+            </el-tab-pane>
+          </el-tabs>
         </el-row>
       </el-tab-pane>
 
@@ -194,6 +216,20 @@ export default {
         {
           time: '2018/11',
           exp: '北京大学信息科学学院'
+        }
+      ],
+      scholarPaper: [
+        {
+          title: 'Attention is all you need',
+          year: '2018',
+          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
+          publishment: 'AAAI'
+        },
+        {
+          title: 'Attention is all you need',
+          year: '2018',
+          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
+          publishment: 'AAAI'
         }
       ],
       activeName: 'first',
