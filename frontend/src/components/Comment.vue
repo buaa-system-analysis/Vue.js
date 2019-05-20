@@ -51,8 +51,8 @@ export default {
       } else {
         this.comments.userID = this.$store.state.userID
         this.comments.resourceID = this.$route.query.paper_id
-        this.comments.time = this.methods.get_time()
-        this.comments.content = this.document.getElementById('commet_content').value
+        this.comments.time = this.get_time()
+        this.comments.content = document.getElementById('commet_content').value
         this.$refs['comments'].validate((valid) => {
           if (valid) {
             let postData = {
