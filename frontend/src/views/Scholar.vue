@@ -17,18 +17,18 @@
                 <i class="el-icon-s-custom" style="color: darkorange; font-size: 60px"></i>
               </el-col>
               <el-col :span="14">
-                <el-row style="color: black; font-size: 18px">{{item['scholar']}}</el-row>
-                <el-row style="color: black">{{item['org']}}</el-row>
+                <el-row style="color: black; font-size: 18px">{{item['name']}}</el-row>
+                <el-row style="color: black">{{item['organization']}}</el-row>
                 <el-row>
-                  <el-col :span="6" style="color: darkgray">发表文章:</el-col>
-                  <el-col :span="6" style="color: black">{{item['pub']}}</el-col>
+                  <el-col :span="6" style="color: darkgray">h-index:</el-col>
+                  <el-col :span="6" style="color: black">{{item['h_index']}}</el-col>
                   <el-col :span="6" style="color: darkgray">被引次数:</el-col>
                   <el-col :span="6" style="color: black">{{item['citation']}}</el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="6" style="color: darkgray">研究领域:</el-col>
                   <el-col :span="18" style="color: black">
-                    <span  v-for="f in item['field']" :key="f" style="padding-right: 5px">{{f}}</span>
+                    <span  v-for="f in item['fields']" :key="f" style="padding-right: 5px">{{f}}</span>
                   </el-col>
                 </el-row>
               </el-col>
@@ -234,73 +234,7 @@ export default {
       ],
       activeName: 'first',
       currentPage: 1,
-      scholarList: [
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        }
-      ],
-      subscribeList: [
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        },
-        {
-          scholar: 'Xinhang Li',
-          org: 'Beihang University',
-          pub: 618,
-          citation: 10698,
-          field: ['NLP', 'CV', 'ML']
-        }
-      ]
+      scholarList: []
     }
   },
   methods: {
@@ -310,11 +244,41 @@ export default {
     search () {
       const searchText = this.searchScholarName
       this.$router.push({path: '/scholar', query: {id: searchText}})
+      window.location.reload()
     },
     getScholarList () {
+      let postData = {
+        'keyword': this.$route.query.id
+      }
+      this.$axios.post('/scholar/find_by_kwd', postData).then((response) => {
+        this.scholarList = response.data['data']['scholarInfo']
+      })
+    },
+    getUserScholarInfo () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID)
+      }
+      let user = {}
+      this.$axios.post('/user/find', postData).then((response) => {
+        user = response.data['data']['user']
+        let postData2 = {
+          'scholarID': parseInt(user['scholarID'])
+        }
+        this.$axios.post('/scholar/find_by_id', postData2).then((response) => {
+          let scholarInfo = response.data['data']['scholarInfo']
+          this.scholarname = scholarInfo['name']
+          this.org = scholarInfo['organization']
+          this.citation = scholarInfo['citation']
+          this.hindex = scholarInfo['h_index']
+          this.gindex = scholarInfo['g_index']
+          this.field = scholarInfo['fields']
+          this.scholarPaper = scholarInfo['papers']
+        })
+      })
     }
   },
   mounted: function () {
+    this.getUserScholarInfo()
     if (this.$route.query.id != null) {
       this.getScholarList()
     }
