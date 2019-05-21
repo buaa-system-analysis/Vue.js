@@ -60,10 +60,18 @@ export default {
       }
     }
   },
+  mounted () {
+    let postData = {
+      'userID': this.$store.state.userID
+    }
+    this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
+      console.log(response.data)
+    })
+  },
   methods: {
     addPaperList () {
       let j = {
-        id: 0,
+        id: this.paperListStyle.data.length,
         'paperListName': '',
         'isSet': true
       }
@@ -71,28 +79,56 @@ export default {
       this.paperListStyle.sel = JSON.parse(JSON.stringify(j))
     },
     changePaperList (row, index, cg) {
+      for (let i of this.paperListStyle.data) {
+        if (i.isSet && i.id !== row.id) {
+          this.$message({
+            message: '请保存当前的编辑项目',
+            type: 'warning'
+          })
+          return false
+        }
+      }
       if (!cg) {
         if (!this.paperListStyle.sel.id) {
           this.paperListStyle.data.splice(index, 1)
         }
         row.isSet = !row.isSet
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        // todo：添加API之后调用API删除paperList
         return true
       }
 
       if (row.isSet) {
-        let data = JSON.parse(JSON.stringify(this.paperListStyle.sel))
-        for (let k in data) {
-          row[k] = data[k]
+        // todo：添加API之后调用API保存paperList
+        let postData = {
+          'userID': this.$store.state.userID,
+          'paperListID': index + 1,
+          'manage': 1,
+          'name': row.paperListName
         }
-        this.$message('保存成功')
-        row.isSet = false
+        this.$axios.post('/api/collection/manage', postData).then((response) => {
+          let data = response.data
+          if (data['code'] === 100) {
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+            let data = JSON.parse(JSON.stringify(this.paperListStyle.sel))
+            for (let k in data) {
+              row[k] = data[k]
+            }
+            row.isSet = false
+          } else {
+            this.$message.error('保存失败')
+          }
+        })
       } else {
         this.paperListStyle.sel = JSON.parse(JSON.stringify(row))
         row.isSet = true
       }
-    },
-    deletePaperList () {
-
     }
   }
 }
