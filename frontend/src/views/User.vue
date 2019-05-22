@@ -199,7 +199,7 @@ export default {
           this.Name = _user['name']
           this.Birthday = _user['birthday']
           this.Gender = _user['sex']
-          this.introduction = _user['introduction']
+          this.Introduction = _user['introduction']
           this.Phone = _user['phone']
           this.Email = _user['email']
         }
