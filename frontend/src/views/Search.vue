@@ -59,7 +59,7 @@ export default {
       let postData = {
         'keyword': this.$route.query.id
       }
-      this.$axios.post('/search/paper', postData).then((response) => {
+      this.$axios.post('/api/search/paper', postData).then((response) => {
         this.paperList = response.data['data']['result']
       })
     },

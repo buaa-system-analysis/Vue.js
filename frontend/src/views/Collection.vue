@@ -17,7 +17,7 @@
                   <el-input size="medium" placeholder="请输入内容" v-model="paperListStyle.sel[v.field]">
                   </el-input>
                 </span>
-                <span v-else>{{scope.row[v.field]}}</span>
+                <span v-else><el-link href="/PaperList" target="_blank">{{scope.row[v.field]}}</el-link></span>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
@@ -52,24 +52,46 @@ export default {
   data () {
     return {
       paperListStyle: {
-        sel: null,
+        sel: [
+          {
+            'id': 0,
+            'isSet': true,
+            'paperListName': '李昕航发表的论文'
+          }
+        ],
         columns: [
           { field: 'paperListName', title: '名称' }
         ],
-        data: []
+        data: [
+          {
+            'id': 0,
+            'isSet': false,
+            'paperListName': '李昕航发表的论文'
+          }
+        ]
       }
     }
   },
   mounted () {
     let postData = {
-      'userID': this.$store.state.userID
+      'userID': parseInt(this.$store.state.userID)
     }
+    console.log(postData)
     this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
       console.log(response.data)
     })
   },
   methods: {
     addPaperList () {
+      for (let i of this.paperListStyle.data) {
+        if (i.isSet) {
+          this.$message({
+            message: '请保存当前的编辑项目',
+            type: 'warning'
+          })
+          return false
+        }
+      }
       let j = {
         id: this.paperListStyle.data.length,
         'paperListName': '',
@@ -89,9 +111,7 @@ export default {
         }
       }
       if (!cg) {
-        if (!this.paperListStyle.sel.id) {
-          this.paperListStyle.data.splice(index, 1)
-        }
+        this.paperListStyle.data.splice(index, 1)
         row.isSet = !row.isSet
         this.$message({
           message: '删除成功',
@@ -103,32 +123,39 @@ export default {
 
       if (row.isSet) {
         // todo：添加API之后调用API保存paperList
+        let data = JSON.parse(JSON.stringify(this.paperListStyle.sel))
         let postData = {
-          'userID': this.$store.state.userID,
-          'paperListID': index + 1,
-          'manage': 1,
-          'name': row.paperListName
+          'userID': parseInt(this.$store.state.userID),
+          'paperListID': parseInt(index + 1),
+          'cmd': 1,
+          'name': data.paperListName
         }
-        this.$axios.post('/api/collection/manage', postData).then((response) => {
-          let data = response.data
-          if (data['code'] === 100) {
-            this.$message({
-              message: '保存成功',
-              type: 'success'
-            })
-            let data = JSON.parse(JSON.stringify(this.paperListStyle.sel))
-            for (let k in data) {
-              row[k] = data[k]
-            }
-            row.isSet = false
-          } else {
-            this.$message.error('保存失败')
-          }
-        })
+        console.log(postData)
+        for (let k in data) {
+          row[k] = data[k]
+        }
+        row.isSet = false
+        // this.$axios.post('/api/collection/manage', postData).then((response) => {
+        //   let resdata = response.data
+        //   if (resdata['code'] === 100) {
+        //     this.$message({
+        //       message: '保存成功',
+        //       type: 'success'
+        //     })
+        //     for (let k in data) {
+        //       row[k] = data[k]
+        //     }
+        //     row.isSet = false
+        //   } else {
+        //     this.$message.error('保存失败')
+        //   }
+        // })
       } else {
         this.paperListStyle.sel = JSON.parse(JSON.stringify(row))
         row.isSet = true
       }
+      console.log(this.paperListStyle.data)
+      console.log(this.paperListStyle.sel)
     }
   }
 }

@@ -18,7 +18,7 @@ Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://106.14.150.33/api'
+axios.defaults.baseURL = '/flask'
 
 /* eslint-disable no-new */
 new Vue({

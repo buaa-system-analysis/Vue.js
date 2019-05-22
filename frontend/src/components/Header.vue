@@ -146,7 +146,7 @@ export default {
             'username': this.loginForm.username,
             'password': this.loginForm.password
           }
-          this.$axios.post('/user/login', postData).then((response) => {
+          this.$axios.post('/api/user/login', postData).then((response) => {
             let data = response.data
             if (data['code'] === 100) {
               this.username = this.loginForm.username
@@ -176,7 +176,7 @@ export default {
             'password': this.registerForm.password1,
             'email': this.registerForm.email
           }
-          this.$axios.post('/user/register', postData).then((response) => {
+          this.$axios.post('/api/user/register', postData).then((response) => {
             let data = response.data
             if (data['code'] === 100) {
               this.username = this.registerForm.username
