@@ -34,7 +34,7 @@
 import Header from '@/components/Header'
 import Aside from '@/components/Aside'
 export default {
-  el: '#Menu',
+  name: 'Menu',
   data () {
     return {
       isCollapse: true,
