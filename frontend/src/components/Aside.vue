@@ -16,7 +16,7 @@
         </el-menu-item>
         <el-menu-item index="1" style="padding: 0">
           <div class="el-menu-item-div">
-            <a href="search" style="display: inline-block;width: 100%; height: 100%;">
+            <a href="/" style="display: inline-block;width: 100%; height: 100%;">
               <i class="el-icon-search" style="color: darkorange"></i>
               <span slot="title" class="menu-item">搜索</span>
             </a>

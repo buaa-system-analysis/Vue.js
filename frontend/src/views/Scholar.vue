@@ -33,7 +33,7 @@
                 </el-row>
               </el-col>
               <el-col :span="6">
-                <el-button style="background-color: darkorange; color: white" round>查看</el-button>
+                <el-button style="background-color: darkorange; color: white" round v-on:click="jump(index)" >查看</el-button>
               </el-col>
             </el-row>
           </li>
@@ -105,12 +105,6 @@
               <el-col :span="20">
                 <span style="color: black; display: -webkit-box;-webkit-box-orient: vertical;
               -webkit-line-clamp: 4;overflow: hidden">{{content}}</span>
-              </el-col>
-            </el-row>
-            <el-row style="padding-bottom: 5px">
-              <el-col :span="4"><p style="color: dimgray">主页链接:</p></el-col>
-              <el-col :span="20">
-                <el-link>{{homepage}}</el-link>
               </el-col>
             </el-row>
           </el-col>
@@ -196,18 +190,14 @@ export default {
   data () {
     return {
       searchScholarName: '',
-      scholarname: '李昕航',
-      org: '北京航空航天大学',
-      citation: '10',
-      pub: '3',
-      hindex: '2',
-      gindex: '5',
-      field: ['人工智能', '机器学习', '金融科技'],
-      content: 'We review recent research results pertaining to GaN, AIN and InN, focusing on present-day techniques and future prospects. ' +
-        'The molecular beam epitaxy and metal-organic vapor phase epitaxy growth techniques, as they have been applied to the nitrides, are described. ' +
-        'New developments in plasma-based sources and substrates are covered. ' +
-        'We also discuss the most recent developments towards an... [Show full abstract]',
-      homepage: 'https://www.baidu.com',
+      scholarname: '',
+      org: '',
+      citation: '',
+      pub: '',
+      hindex: '',
+      gindex: '',
+      field: [],
+      content: '',
       experience: [
         {
           time: '2019/4',
@@ -218,28 +208,26 @@ export default {
           exp: '北京大学信息科学学院'
         }
       ],
-      scholarPaper: [
-        {
-          title: 'Attention is all you need',
-          year: '2018',
-          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
-          publishment: 'AAAI'
-        },
-        {
-          title: 'Attention is all you need',
-          year: '2018',
-          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
-          publishment: 'AAAI'
-        }
-      ],
+      scholarPaper: [],
       activeName: 'first',
       currentPage: 1,
-      scholarList: []
+      scholarList: [],
+      subscribeList: []
     }
   },
   methods: {
     current_change: function (currentPage) {
       this.currentPage = currentPage
+    },
+    jump: function (index) {
+      let data = this.scholarList[(this.currentPage - 1) * 6 + index]
+      let routeData = this.$router.resolve({
+        path: '/scholarDisplay',
+        query: {
+          ID: data['_id']
+        }
+      })
+      window.open(routeData.href, '_blank')
     },
     search () {
       const searchText = this.searchScholarName
@@ -269,6 +257,7 @@ export default {
           this.scholarname = scholarInfo['name']
           this.org = scholarInfo['organization']
           this.citation = scholarInfo['citation']
+          this.pub = scholarInfo['papers'].length
           this.hindex = scholarInfo['h_index']
           this.gindex = scholarInfo['g_index']
           this.field = scholarInfo['fields']
