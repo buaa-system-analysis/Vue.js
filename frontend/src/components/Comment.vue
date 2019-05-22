@@ -37,7 +37,7 @@ export default {
       let postData = {
         'resourceID': this.$route.query.paper_id
       }
-      this.$axios.post('/resource/get_comment', postData).then((response) => {
+      this.$axios.post('/api/resource/get_comment', postData).then((response) => {
         let data = response.data
         if (data['code'] === 100) {
           this.comments = data['data']['result']
@@ -45,7 +45,7 @@ export default {
             postData = {
               'userID': parseInt(this.comments[i]['userID'])
             }
-            this.$axios.post('/user/find', postData).then((response) => {
+            this.$axios.post('/api/user/find', postData).then((response) => {
               let userID = response.data['data']['user']['_id'].toString()
               let username = response.data['data']['user']['username']
               for (var i = 0; i < this.comments.length; i++) {
@@ -74,7 +74,7 @@ export default {
           'resourceID': this.$route.query.paper_id,
           'content': document.getElementById('commet_content').value
         }
-        this.$axios.post('/resource/comment', postData).then((response) => {
+        this.$axios.post('/api/resource/comment', postData).then((response) => {
           let data = response.data
           if (data['code'] === 100) {
             document.getElementById('commet_content').value = ''

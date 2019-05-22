@@ -238,7 +238,7 @@ export default {
       let postData = {
         'keyword': this.$route.query.id
       }
-      this.$axios.post('/scholar/find_by_kwd', postData).then((response) => {
+      this.$axios.post('/api/scholar/find_by_kwd', postData).then((response) => {
         this.scholarList = response.data['data']['scholarInfo']
       })
     },
@@ -247,12 +247,12 @@ export default {
         'userID': parseInt(this.$store.state.userID)
       }
       let user = {}
-      this.$axios.post('/user/find', postData).then((response) => {
+      this.$axios.post('/api/user/find', postData).then((response) => {
         user = response.data['data']['user']
         let postData2 = {
           'scholarID': parseInt(user['scholarID'])
         }
-        this.$axios.post('/scholar/find_by_id', postData2).then((response) => {
+        this.$axios.post('/api/scholar/find_by_id', postData2).then((response) => {
           let scholarInfo = response.data['data']['scholarInfo']
           this.scholarname = scholarInfo['name']
           this.org = scholarInfo['organization']

@@ -128,7 +128,7 @@ export default {
       let postData = {
         'scholarID': parseInt(this.$route.query.ID)
       }
-      this.$axios.post('/scholar/find_by_id', postData).then((response) => {
+      this.$axios.post('/api/scholar/find_by_id', postData).then((response) => {
         let scholarInfo = response.data['data']['scholarInfo']
         this.scholarname = scholarInfo['name']
         this.org = scholarInfo['organization']

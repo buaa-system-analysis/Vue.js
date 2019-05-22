@@ -192,7 +192,7 @@ export default {
       let postData = {
         'userID': parseInt(this.$store.state.userID)
       }
-      this.$axios.post('/user/find', postData).then((response) => {
+      this.$axios.post('/api/user/find', postData).then((response) => {
         if (response.data['code'] === 100) {
           let _user = response.data['data']['user']
           console.log(_user)
@@ -213,7 +213,7 @@ export default {
           'name': this.form.Name
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Name = this.form.Name
         }
@@ -227,7 +227,7 @@ export default {
           'birthday': this.form.Birthday
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Birthday = this.form.Birthday
         }
@@ -241,7 +241,7 @@ export default {
           'sex': this.form.Gender
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Gender = this.form.Gender
         }
@@ -255,7 +255,7 @@ export default {
           'email': this.form.Email
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Email = this.form.Email
         }
@@ -269,7 +269,7 @@ export default {
           'phone': this.form.Phone
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Phone = this.form.Phone
         }
@@ -283,7 +283,7 @@ export default {
           'introduction': this.form.Introduction
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           this.Introduction = this.form.Introduction
         }
@@ -297,7 +297,7 @@ export default {
           'password': this.form.Password
         }
       }
-      this.$axios.post('/user/edit', postData).then((response) => {
+      this.$axios.post('/api/user/edit', postData).then((response) => {
         if (response.data['code'] === 100) {
           // this.password = this.form.Password
         }
