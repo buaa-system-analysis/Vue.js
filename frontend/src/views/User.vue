@@ -33,7 +33,7 @@
         <span class="attribute">********</span>
         <span class="el-icon-edit"></span>
       </div>
-      
+
     </div>
 
     <p></p>
@@ -172,7 +172,7 @@ export default {
       VisibleEditPassword: false,
       VisibleEditEmail: false,
       VisibleEditPhone: false,
-      VisibleEditIntro: false, 
+      VisibleEditIntro: false,
       form: {
         Introduction: '',
         Password: '',
@@ -214,7 +214,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Name = this.form.Name
         }
       })
@@ -228,7 +228,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Birthday = this.form.Birthday
         }
       })
@@ -242,7 +242,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Gender = this.form.Gender
         }
       })
@@ -256,7 +256,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Email = this.form.Email
         }
       })
@@ -270,7 +270,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Phone = this.form.Phone
         }
       })
@@ -284,7 +284,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           this.Introduction = this.form.Introduction
         }
       })
@@ -298,7 +298,7 @@ export default {
         }
       }
       this.$axios.post('/user/edit', postData).then((response) => {
-        if(response.data['code'] == 100) {
+        if(response.data['code'] === 100) {
           // this.password = this.form.Password
         }
       })

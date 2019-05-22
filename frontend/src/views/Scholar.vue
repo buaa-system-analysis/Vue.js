@@ -107,12 +107,6 @@
               -webkit-line-clamp: 4;overflow: hidden">{{content}}</span>
               </el-col>
             </el-row>
-            <el-row style="padding-bottom: 5px">
-              <el-col :span="4"><p style="color: dimgray">主页链接:</p></el-col>
-              <el-col :span="20">
-                <el-link>{{homepage}}</el-link>
-              </el-col>
-            </el-row>
           </el-col>
           <el-col :span="8">
             <el-timeline>
@@ -203,11 +197,7 @@ export default {
       hindex: '2',
       gindex: '5',
       field: ['人工智能', '机器学习', '金融科技'],
-      content: 'We review recent research results pertaining to GaN, AIN and InN, focusing on present-day techniques and future prospects. ' +
-        'The molecular beam epitaxy and metal-organic vapor phase epitaxy growth techniques, as they have been applied to the nitrides, are described. ' +
-        'New developments in plasma-based sources and substrates are covered. ' +
-        'We also discuss the most recent developments towards an... [Show full abstract]',
-      homepage: 'https://www.baidu.com',
+      content: '',
       experience: [
         {
           time: '2019/4',
@@ -269,6 +259,7 @@ export default {
           this.scholarname = scholarInfo['name']
           this.org = scholarInfo['organization']
           this.citation = scholarInfo['citation']
+          this.pub = scholarInfo['papers'].length
           this.hindex = scholarInfo['h_index']
           this.gindex = scholarInfo['g_index']
           this.field = scholarInfo['fields']
