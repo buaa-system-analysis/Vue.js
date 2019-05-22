@@ -28,20 +28,32 @@ export default {
     return {
       comments: [
         {
-          uesrID: '123',
-          resourceID: '123456',
-          time: 'YYYY-MM-DD hh:mm:ss',
-          content: 'ohhhhhhhh'
+          user: '',
+          time: '',
+          text: ''
         }
       ]
     }
   },
+  mounted: function () {
+    this.get_comment()
+
+  },
   methods: {
-    get_time () {
-      var d = new Date()
-      d = new Date(d.getTime() - 3000000)
-      var time = d.getFullYear().toString() + '- ' + ((d.getMonth() + 1).toString().length === 2 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1).toString()) + '-' + (d.getDate().toString().length === 2 ? d.getDate().toString() : '0' + d.getDate().toString()) + ' ' + (d.getHours().toString().length === 2 ? d.getHours().toString() : '0' + d.getHours().toString()) + ':' + ((parseInt(d.getMinutes() / 5) * 5).toString().length === 2 ? (parseInt(d.getMinutes() / 5) * 5).toString() : '0' + (parseInt(d.getMinutes() / 5) * 5).toString()) + ':00'
-      return time
+    get_comment () {
+      let postData = {
+        'resourceID': this.$route.query.paper_id
+      }
+      this.$axios.post('/resource/get_comment', postData).then((response) => {
+        if (data['code'] === 100) {
+          this.comments = response.data.result
+        } else {
+          this.$message.error('错误')
+          return false
+        }
+      }).catch((response) => {
+        console.log(response)
+      })
     },
     add_reply () {
       if (this.$store.state.userID === null) {
@@ -49,32 +61,21 @@ export default {
       } else if (document.getElementById('commet_content').value == null || document.getElementById('commet_content').value === '') {
         alert('请输入内容')
       } else {
-        this.comments.userID = this.$store.state.userID
-        this.comments.resourceID = this.$route.query.paper_id
-        this.comments.time = this.get_time()
-        this.comments.content = document.getElementById('commet_content').value
-        this.$refs['comments'].validate((valid) => {
-          if (valid) {
-            let postData = {
-              'userID': this.comments.userID,
-              'resourceID': this.comments.resourceID,
-              'time': this.comments.time,
-              'content': this.comments.content
-            }
-            this.$axios.post('/resource/comment', postData).then((response) => {
-              let data = response.data
-              if (data['code'] === 100) {
-                document.getElementById('commet_content').value = ''
-              } else {
-                this.$message.error('错误')
-                return false
-              }
-            }).catch((response) => {
-              console.log(response)
-            })
+        let postData = {
+          'userID': this.$store.state.userID,
+          'resourceID': this.$route.query.paper_id,
+          'content': document.getElementById('commet_content').value
+        }
+        this.$axios.post('/resource/comment', postData).then((response) => {
+          let data = response.data
+          if (data['code'] === 100) {
+            document.getElementById('commet_content').value = ''
           } else {
+            this.$message.error('错误')
             return false
           }
+        }).catch((response) => {
+          console.log(response)
         })
       }
     }
