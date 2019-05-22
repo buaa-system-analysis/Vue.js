@@ -8,6 +8,7 @@ import Search from '@/views/Search'
 import ResourceDisplay from '@/views/ResourceDisplay'
 import Collection from '@/views/Collection'
 import Scholar from '@/views/Scholar'
+import ScholarDisplay from '@/views/ScholarDisplay'
 
 Vue.use(Router)
 
@@ -31,7 +32,8 @@ const router = new Router({
         {path: '/Search', component: Search},
         {path: '/Resource', component: ResourceDisplay},
         {path: '/Collection', component: Collection},
-        {path: '/Scholar', component: Scholar}
+        {path: '/Scholar', component: Scholar},
+        {path: '/ScholarDisplay', component: ScholarDisplay}
       ],
       meta: {
         requireAuth: true

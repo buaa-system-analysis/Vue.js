@@ -12,9 +12,10 @@
         <el-menu-item index="2" @click="loginDialogVisable = true" v-if="this.$store.state.userID === null" style="float:right">登录/注册</el-menu-item>
         <el-submenu index="2" v-else style="float:right">
           <template slot="title">{{this.$store.state.username}}</template>
-          <el-menu-item index="2-1">个人中心</el-menu-item>
-          <el-menu-item index="2-2">已购买文献</el-menu-item>
-          <el-menu-item index="2-3" @click="logout">退出登录</el-menu-item>
+          <el-menu-item index="2-1"><a href="/user" style="color: darkgray">个人中心</a></el-menu-item>
+          <el-menu-item index="2-2"><a href="/scholar" style="color: darkgray">学者中心</a></el-menu-item>
+          <el-menu-item index="2-3"><a href="/purchase" style="color: darkgray">已购买文献</a></el-menu-item>
+          <el-menu-item index="2-4" @click="logout">退出登录</el-menu-item>
         </el-submenu>
         <el-menu-item index="1" style="float:right" v-if="this.$route.path !== '/'">
           <el-input v-model="input3">

@@ -33,7 +33,7 @@
                 </el-row>
               </el-col>
               <el-col :span="6">
-                <el-button style="background-color: darkorange; color: white" round>查看</el-button>
+                <el-button style="background-color: darkorange; color: white" round v-on:click="jump(index)" >查看</el-button>
               </el-col>
             </el-row>
           </li>
@@ -190,13 +190,13 @@ export default {
   data () {
     return {
       searchScholarName: '',
-      scholarname: '李昕航',
-      org: '北京航空航天大学',
-      citation: '10',
-      pub: '3',
-      hindex: '2',
-      gindex: '5',
-      field: ['人工智能', '机器学习', '金融科技'],
+      scholarname: '',
+      org: '',
+      citation: '',
+      pub: '',
+      hindex: '',
+      gindex: '',
+      field: [],
       content: '',
       experience: [
         {
@@ -208,28 +208,26 @@ export default {
           exp: '北京大学信息科学学院'
         }
       ],
-      scholarPaper: [
-        {
-          title: 'Attention is all you need',
-          year: '2018',
-          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
-          publishment: 'AAAI'
-        },
-        {
-          title: 'Attention is all you need',
-          year: '2018',
-          authors: 'Xinhang Li, Xinhang Li, Xinhang Li',
-          publishment: 'AAAI'
-        }
-      ],
+      scholarPaper: [],
       activeName: 'first',
       currentPage: 1,
-      scholarList: []
+      scholarList: [],
+      subscribeList: []
     }
   },
   methods: {
     current_change: function (currentPage) {
       this.currentPage = currentPage
+    },
+    jump: function (index) {
+      let data = this.scholarList[(this.currentPage - 1) * 6 + index]
+      let routeData = this.$router.resolve({
+        path: '/scholarDisplay',
+        query: {
+          ID: data['_id']
+        }
+      })
+      window.open(routeData.href, '_blank')
     },
     search () {
       const searchText = this.searchScholarName
