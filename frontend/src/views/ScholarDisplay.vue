@@ -7,7 +7,8 @@
             <el-button style="background-color: darkorange; color: white" round>认证</el-button>
         </el-row>
         <el-row>
-          <el-button style="background-color: white; color: darkorange" round>关注</el-button>
+          <el-button v-if="state === false" style="background-color: white; color: darkorange" round @click="subscribe">关注</el-button>
+          <el-button v-if="state === true" style="background-color: darkorange; color: white" round @click="unsubscribe">已关注</el-button>
         </el-row>
       </el-col>
       <el-col :span="12" style="text-align: left">
@@ -95,7 +96,8 @@ export default {
       hindex: '',
       gindex: '',
       field: [],
-      scholarPaper: []
+      scholarPaper: [],
+      state: false
     }
   },
   methods: {
@@ -114,10 +116,45 @@ export default {
         this.field = scholarInfo['fields']
         this.scholarPaper = scholarInfo['papers']
       })
+    },
+    subscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'scholarID': parseInt(this.$route.query.ID),
+        'cmd': true
+      }
+      this.$axios.post('/api/collection/subscribe', postData).then((response) => {
+        window.location.reload()
+      })
+    },
+    unsubscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'scholarID': parseInt(this.$route.query.ID),
+        'cmd': false
+      }
+      this.$axios.post('/api/collection/subscribe', postData).then((response) => {
+        window.location.reload()
+      })
+    },
+    dynamicShow () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID)
+      }
+      this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
+        let data = response.data['data']['subscribeList']
+        var i = 0
+        for(i = 0; i < data.length; i++) {
+          if (data[i]['_id'] == this.$route.query.ID) {
+            this.state = true
+          }
+        }
+      })
     }
   },
   mounted: function () {
     this.getScholarInfo()
+    this.dynamicShow()
   }
 }
 </script>

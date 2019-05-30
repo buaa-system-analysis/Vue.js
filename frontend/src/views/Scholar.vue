@@ -11,7 +11,7 @@
         <ul style="text-align: left; padding: 0 0 0 0">
           <li style="padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">为您找到以下结果:</p></li>
           <li v-for="(item, index) in scholarList.slice(6*currentPage-6, 6*currentPage)" :key="index"
-              style="line-height: 150%; padding-bottom: 30px; width: 50%; display: inline-block">
+              style="line-height: 150%; padding-bottom: 30px; width: 50%; display: inline-block; vertical-align: top">
             <el-row>
               <el-col :span="4">
                 <i class="el-icon-s-custom" style="color: darkorange; font-size: 60px"></i>
@@ -135,33 +135,35 @@
       </el-tab-pane>
 
       <el-tab-pane label="我关注的学者" name="third">
+        <el-row v-if="subscribeList.length == 0" style="color: darkgray; font-size: 24px; padding-top: 50px">
+          您未关注任何学者
+        </el-row>
         <ul style="text-align: left; padding: 0 0 0 0">
           <li v-for="(item, index) in subscribeList" :key="index"
-              style="line-height: 150%; padding-bottom: 30px; width: 50%; display: inline-block">
+              style="line-height: 150%; width: 50%; display: inline-block; vertical-align: top">
             <el-row>
               <el-col :span="4">
                 <i class="el-icon-s-custom" style="color: darkorange; font-size: 60px"></i>
               </el-col>
               <el-col :span="14">
-                <el-row style="color: black; font-size: 18px">{{item['scholar']}}</el-row>
-                <el-row style="color: black">{{item['org']}}</el-row>
+                <el-row style="color: black; font-size: 18px">{{item['name']}}</el-row>
+                <el-row style="color: black">{{item['organization']}}</el-row>
                 <el-row>
-                  <el-col :span="6" style="color: darkgray">发表文章:</el-col>
-                  <el-col :span="6" style="color: black">{{item['pub']}}</el-col>
                   <el-col :span="6" style="color: darkgray">被引次数:</el-col>
                   <el-col :span="6" style="color: black">{{item['citation']}}</el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="6" style="color: darkgray">研究领域:</el-col>
                   <el-col :span="18" style="color: black">
-                    <span  v-for="f in item['field']" :key="f" style="padding-right: 5px">{{f}}</span>
+                    <span>{{item['fields'][0]}}</span>
                   </el-col>
                 </el-row>
               </el-col>
               <el-col :span="6">
                 <el-button style="background-color: darkorange; color: white"
-                           icon="el-icon-check" round>已关注</el-button>
-                <el-button style="background-color: darkorange; color: white; margin: 5px 0 0 0" round>前往查看</el-button>
+                           icon="el-icon-check" round v-on:click="unsubscribe(index)">已关注</el-button>
+                <el-button style="background-color: darkorange; color: white; margin: 5px 0 0 0"
+                           round v-on:click="jump2(index)">前往查看</el-button>
               </el-col>
             </el-row>
           </li>
@@ -207,6 +209,16 @@ export default {
       })
       window.open(routeData.href, '_blank')
     },
+    jump2: function (index) {
+      let data = this.subscribeList[index]
+      let routeData = this.$router.resolve({
+        path: '/scholarDisplay',
+        query: {
+          ID: data['_id']
+        }
+      })
+      window.open(routeData.href, '_blank')
+    },
     search () {
       const searchText = this.searchScholarName
       this.$router.push({path: '/scholar', query: {id: searchText}})
@@ -218,6 +230,14 @@ export default {
       }
       this.$axios.post('/api/scholar/find_by_kwd', postData).then((response) => {
         this.scholarList = response.data['data']['scholarInfo']
+      })
+    },
+    getSubscribeList () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID)
+      }
+      this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
+        this.subscribeList = response.data['data']['subscribeList']
       })
     },
     getUserScholarInfo () {
@@ -242,10 +262,21 @@ export default {
           this.scholarPaper = scholarInfo['papers']
         })
       })
+    },
+    unsubscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'scholarID': parseInt(this.$route.query.ID),
+        'cmd': false
+      }
+      this.$axios.post('/api/collection/subscribe', postData).then((response) => {
+        window.location.reload()
+      })
     }
   },
   mounted: function () {
     this.getUserScholarInfo()
+    this.getSubscribeList()
     if (this.$route.query.id != null) {
       this.getScholarList()
     }
