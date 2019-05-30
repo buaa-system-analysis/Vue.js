@@ -28,7 +28,7 @@
                 <el-row>
                   <el-col :span="6" style="color: darkgray">研究领域:</el-col>
                   <el-col :span="18" style="color: black">
-                    <span  v-for="f in item['fields']" :key="f" style="padding-right: 5px">{{f}}</span>
+                    <span>{{item['fields'][0]}}</span>
                   </el-col>
                 </el-row>
               </el-col>
@@ -97,24 +97,11 @@
             <el-row style="padding: 20px 0 5px 0">
               <el-col :span="4"><p style="color: dimgray">领域:</p></el-col>
               <el-col :span="20">
-                <span v-for="f in field" :key="f" style="color: black">{{f}} / </span>
+                <span v-for="(f, index) in field" :key="f" style="color: black">{{f}}
+                  <span v-if="index != field.length-1">/ </span>
+                </span>
               </el-col>
             </el-row>
-            <el-row style="padding-bottom: 5px">
-              <el-col :span="4"><p style="color: dimgray">研究内容:</p></el-col>
-              <el-col :span="20">
-                <span style="color: black; display: -webkit-box;-webkit-box-orient: vertical;
-              -webkit-line-clamp: 4;overflow: hidden">{{content}}</span>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="8">
-            <el-timeline>
-              <el-timeline-item v-for="item in experience" :key="item" :timestamp="item['time']"
-                                placement="top" type="warning">
-                <span style="color: #475669">{{item['exp']}}</span>
-              </el-timeline-item>
-            </el-timeline>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -127,7 +114,9 @@
                     {{item['title']}}
                   </el-row>
                   <el-row style="color: #475669; font-size: 12px">
-                    {{item['year']}} - {{item['authors']}} - {{item['publishment']}}
+                    <span v-for="(author, index) in item['authors']" :key="author" style="color: black">{{author}}
+                      <span v-if="index != item['authors'].length-1">,  </span>
+                    </span>
                   </el-row>
                 </el-col>
                 <el-col :span="4">
@@ -197,17 +186,6 @@ export default {
       hindex: '',
       gindex: '',
       field: [],
-      content: '',
-      experience: [
-        {
-          time: '2019/4',
-          exp: '清华大学交叉信息研究院'
-        },
-        {
-          time: '2018/11',
-          exp: '北京大学信息科学学院'
-        }
-      ],
       scholarPaper: [],
       activeName: 'first',
       currentPage: 1,

@@ -11,8 +11,10 @@
             </el-link>
             <p style="color: black; display: -webkit-box;
               -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
-              <li style="display: inline-block" v-for="author in item['authors']" :key='author'>
-                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}</span>
+              <li style="display: inline-block" v-for="(author, index) in item['authors']" :key='author'>
+                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}
+                  <span v-if="index != item['authors'].length-1">,  </span>
+                </span>
               </li>
             <p style="color: darkgrey; display: -webkit-box;
               -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">

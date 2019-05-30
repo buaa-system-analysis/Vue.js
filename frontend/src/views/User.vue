@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%; text-align: center">
+  <div style="padding-left: 15%; padding-right: 15%; height: 100%; text-align: center">
     <div style="width: 100%">
       <p style="color: black; font-size: 32px; margin: 0">个人信息</p>
       <p style="color: darkgray; font-size: 18px">您在 Barbeque 服务中使用的基本信息，例如您的姓名和照片</p>
