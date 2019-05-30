@@ -5,11 +5,6 @@
       <div style="margin-top: 15px; width: 35% ;position: absolute;left:32%;top:20%;">
         <img src="../assets/logo.png">
         <el-input placeholder="请输入内容" v-model="input3" style="margin-top: 30px">
-          <el-select v-model="select" slot="prepend" placeholder="请选择">
-            <el-option label="文献" value="1"> </el-option>
-            <el-option label="学者" value="2"> </el-option>
-            <el-option label="专利" value="3"> </el-option>
-          </el-select>
           <el-button slot="append" icon="el-icon-search" @click="jump">搜索</el-button>
         </el-input>
       </div>

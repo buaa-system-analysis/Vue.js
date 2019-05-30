@@ -2,22 +2,22 @@
   <el-header>
     <div style="width: 100%; padding: 0 20px 0 20px">
       <el-menu mode="horizontal">
-        <el-menu-item index="0">
+        <el-menu-item>
         <div class="block" style="height: 100% ;width:30%; margin-left: 50%">
           <router-link to='/'>
             <img src="../assets/timg.jpg" height="55px">
           </router-link>
         </div>
         </el-menu-item>
-        <el-menu-item index="2" @click="loginDialogVisable = true" v-if="this.$store.state.userID === null" style="float:right">登录/注册</el-menu-item>
-        <el-submenu index="2" v-else style="float:right">
+        <el-menu-item @click="loginDialogVisable = true" v-if="this.$store.state.userID === null" style="float:right">登录/注册</el-menu-item>
+        <el-submenu v-else style="float:right">
           <template slot="title">{{this.$store.state.username}}</template>
           <el-menu-item index="2-1"><a href="/user" style="color: darkgray">个人中心</a></el-menu-item>
           <el-menu-item index="2-2"><a href="/scholar" style="color: darkgray">学者中心</a></el-menu-item>
           <el-menu-item index="2-3"><a href="/purchase" style="color: darkgray">已购买文献</a></el-menu-item>
           <el-menu-item index="2-4" @click="logout">退出登录</el-menu-item>
         </el-submenu>
-        <el-menu-item index="1" style="float:right" v-if="this.$route.path !== '/'">
+        <el-menu-item style="float:right" v-if="this.$route.path !== '/'">
           <el-input v-model="input3">
             <el-button slot="append" icon="el-icon-search" @click="jump">搜索</el-button>
           </el-input>
