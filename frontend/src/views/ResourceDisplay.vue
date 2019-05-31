@@ -8,7 +8,9 @@
         </el-col>
         <el-col :span="21">
           <li style="display: inline-block" v-for="(author, index) in authors" :key="index">
-            <span style="padding-right: 10px; color: #409EFF">{{author}}</span>
+            <span style="padding-right: 10px; color: #409EFF">
+              <el-link :underline="false" @click="jump(author)">{{author}}</el-link>
+            </span>
           </li>
         </el-col>
       </el-row>
@@ -27,7 +29,9 @@
         </el-col>
         <el-col :span="21">
           <li style="display: inline-block" v-for="(item, index) in keywords" :key="index">
-            <span style="padding-right: 20px; color: #409EFF">{{item}}</span>
+            <span style="padding-right: 20px; color: #409EFF">
+              <el-link :underline="false" @click="jump2(item)">{{item}}</el-link>
+            </span>
           </li>
         </el-col>
       </el-row>
@@ -97,6 +101,12 @@ export default {
     this.citation = this.$route.query.citation
   },
   methods: {
+    jump (f) {
+      this.$router.push({path: '/scholar', query: {id: f}})
+    },
+    jump2 (f) {
+      this.$router.push({path: '/search', query: {id: f}})
+    }
   }
 }
 </script>

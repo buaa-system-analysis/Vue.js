@@ -9,10 +9,9 @@
                      style="display: block; font-size: 24px; height: min-content; margin: 5px; line-height: 120%">
               {{item['title']}}
             </el-link>
-            <p style="color: black; display: -webkit-box;
-              -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
               <li style="display: inline-block" v-for="(author, index) in item['authors']" :key='author'>
-                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}
+                <span style="padding-left: 5px; padding-right: 5px; color: black">
+                  <el-link :underline="false" @click="jump2(author)">{{author}}</el-link>
                   <span v-if="index != item['authors'].length-1">,  </span>
                 </span>
               </li>
@@ -26,7 +25,6 @@
                 <el-table size="medium" :data="paperListCollection.data" border style="width: 100%" highlight-current-row>
                   <el-table-column type="index"></el-table-column>
                   <el-table-column v-for="(v,i) in paperListCollection.columns" :prop="v.field" :label="v.title" :key="(v,i)">
-                    <!-- <span><el-link href="/PaperList" target="_blank">{{i}}</el-link></span> -->
                   <template slot-scope="scope">
                     <el-button type="text" size="small">{{scope.row['paperListName']}}</el-button>
                   </template>
@@ -110,6 +108,9 @@ export default {
         }
       })
       window.open(routeData.href, '_blank')
+    },
+    jump2 (f) {
+      this.$router.push({path: '/scholar', query: {id: f}})
     },
     get_collection_list (index) {
       this.paperListCollection.data = []
