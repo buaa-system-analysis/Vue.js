@@ -144,8 +144,8 @@ export default {
       this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
         let data = response.data['data']['subscribeList']
         var i = 0
-        for(i = 0; i < data.length; i++) {
-          if (data[i]['_id'] == this.$route.query.ID) {
+        for (i = 0; i < data.length; i++) {
+          if (data[i]['_id'] === this.$route.query.ID) {
             this.state = true
           }
         }
