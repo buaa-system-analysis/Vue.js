@@ -2,10 +2,10 @@
 <div style="margin-top: 30px; padding: 0 25% 0 25%; text-align: left">
   <div style="width: 100%">
     <p style="color: black; font-size: 24px; float: left; width:100%">
-      李昕航发表的论文
+      {{this.$route.query.name}}
     </p>
     <p style="color: black; font-size: 24px; float: left; width:100%">
-      <el-button type="warning" icon="el-icon-star-off" round>订阅</el-button>
+      <el-button type="warning" icon="el-icon-star-off" round @click="subscribe">订阅</el-button>
       <el-divider></el-divider>
     </p>
   </div>
@@ -26,7 +26,7 @@
             {{item['abstract']}}
           </p>
           <el-row style="padding: 10px 0 10px 0">
-            <el-button type="warning" icon="el-icon-star-off" round>取消收藏</el-button>
+            <el-button type="warning" icon="el-icon-star-off" round @click="cancel_collect(item['_id'], index)">取消收藏</el-button>
             <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
             <a :href="item['fulltextURL']" style="padding-left: 10px">
               <el-button type="warning" icon="el-icon-download" round>下载</el-button>
@@ -54,29 +54,21 @@ export default {
   data () {
     return {
       currentPage: 1,
-      paperListData: [
-        {
-          'title': 'Attention is all you need',
-          'year': '2018',
-          'authors': ['Xinhang Li'],
-          'publishment': 'AAAI'
-        },
-        {
-          'title': 'Attention is all you need',
-          'year': '2018',
-          'authors': ['Xinhang Li'],
-          'publishment': 'AAAI'
-        }
-      ]
+      paperListData: []
     }
   },
+  mounted () {
+    this.get_papers()
+  },
   methods: {
-    search () {
+    get_papers () {
       let postData = {
-        'keyword': this.$route.query.id
+        'userID': 0,
+        'paperListID': parseInt(this.$route.query.id)
       }
-      this.$axios.post('/api/search/paper', postData).then((response) => {
-        this.paperList = response.data['data']['result']
+      this.$axios.post('/api/collection/get_paper_list', postData).then((response) => {
+        this.paperListData = response.data['data']['paperList']
+        console.log(this.paperListData)
       })
     },
     current_change: function (currentPage) {
@@ -88,7 +80,7 @@ export default {
         path: '/resource',
         query: {
           title: data['title'],
-          paper_id: data['paper_id'],
+          paper_id: data['_id'],
           url: data['fulltextURL'],
           authors: data['authors'],
           abstract: data['abstract'],
@@ -98,6 +90,46 @@ export default {
         }
       })
       window.open(routeData.href, '_blank')
+    },
+    cancel_collect (paperID, index) {
+      // console.log(index)
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'paperListID': parseInt(this.$route.query.id),
+        'cmd': 'DEL',
+        'paperID': paperID
+      }
+      this.$axios.post('/api/collection/paper', postData).then((response) => {
+        let data = response.data
+        if (data['code'] === 100) {
+          this.$message({
+            message: '取消收藏成功',
+            type: 'success'
+          })
+          this.paperListData.splice(index, 1)
+        } else {
+          this.$message.error('取消收藏失败')
+        }
+      })
+    },
+    subscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'paperListID': parseInt(this.$route.query.id),
+        'cmd': 3,
+        'name': this.$route.query.name
+      }
+      this.$axios.post('/api/collection/manage', postData).then((response) => {
+        let resdata = response.data
+        if (resdata['code'] === 100) {
+          this.$message({
+            message: '订阅成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error('订阅失败')
+        }
+      })
     }
   },
   computed: {

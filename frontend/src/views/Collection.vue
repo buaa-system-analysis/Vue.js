@@ -9,23 +9,24 @@
     <div style="width: 100%">
       <el-row>
         <el-col>
-          <el-table size="medium" :data="paperListStyle.data" border style="width: 100%" highlight-current-row>
+          <el-table size="medium" :data="paperListCollection.data" border style="width: 100%" highlight-current-row>
             <el-table-column type="index"></el-table-column>
-            <el-table-column v-for="(v,i) in paperListStyle.columns" :prop="v.field" :label="v.title" :key="(v,i)">
+            <el-table-column v-for="(v,i) in paperListCollection.columns" :prop="v.field" :label="v.title" :key="(v,i)">
               <template slot-scope="scope">
                 <span v-if="scope.row.isSet">
-                  <el-input size="medium" placeholder="请输入内容" v-model="paperListStyle.sel[v.field]">
+                  <el-input size="medium" placeholder="请输入内容" v-model="paperListCollection.sel[v.field]">
                   </el-input>
                 </span>
-                <span v-else><el-link href="/PaperList" target="_blank">{{scope.row[v.field]}}</el-link></span>
+                <!-- <span v-else><el-link href="/PaperList" target="_blank">{{scope.row[v.field]}}</el-link></span> -->
+                <el-button v-else type="text" size="small" @click="jump2list(scope.row['paperListID'], scope.row['paperListName'])">{{scope.row['paperListName']}}</el-button>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template slot-scope="scope">
-                  <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="changePaperList(scope.row,scope.$index,true)">
+                  <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="changePaperList(scope.row,scope.$index,true)" v-if="scope.row.isSet">
                       {{scope.row.isSet?'保存':"修改"}}
                   </span>
-                  <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;"  @click="changePaperList(scope.row,scope.$index,false)">
+                  <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;"  @click="changePaperList(scope.row,scope.$index,false, 2)">
                       删除
                   </span>
                   <span v-else class="el-tag el-tag--mini" style="cursor: pointer;" @click="scope.row.isSet = false">
@@ -42,6 +43,27 @@
         </el-col>
       </el-row>
     </div>
+    <div style="width: 100%">
+      <p style="color: black; font-size: 24px; float: left; width:100%; margin-top: 30px">
+        {{this.$store.state.username}}的订阅列表
+        <el-divider></el-divider>
+      </p>
+      <el-table size="medium" :data="paperListSubscribe.data" border style="width: 100%" highlight-current-row>
+        <el-table-column type="index"></el-table-column>
+        <el-table-column v-for="(v,i) in paperListSubscribe.columns" :prop="v.field" :label="v.title" :key="(v,i)">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click="jump2list(scope.row['paperListID'], scope.row['paperListName'])">{{scope.row['paperListName']}}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="100">
+          <template slot-scope="scope">
+            <span class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;" @click="changePaperList(scope.row,scope.$index,false, 4)">
+                删除
+            </span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 
 </template>
@@ -51,39 +73,54 @@ export default {
   name: 'Collection',
   data () {
     return {
-      paperListStyle: {
-        sel: [
-          {
-            'id': 0,
-            'isSet': true,
-            'paperListName': '李昕航发表的论文'
-          }
-        ],
+      paperListCollection: {
+        sel: [],
         columns: [
           { field: 'paperListName', title: '名称' }
         ],
-        data: [
-          {
-            'id': 0,
-            'isSet': false,
-            'paperListName': '李昕航发表的论文'
-          }
-        ]
+        data: []
+      },
+      paperListSubscribe: {
+        columns: [
+          { field: 'paperListName', title: '名称' }
+        ],
+        data: []
       }
     }
   },
   mounted () {
     let postData = {
-      'userID': parseInt(this.$store.state.userID)
+      'userID': parseInt(this.$store.state.userID),
+      'paperListID': 0
     }
-    console.log(postData)
-    this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
-      console.log(response.data)
+    // console.log(postData)
+    this.$axios.post('/api/collection/get_paper_list', postData).then((response) => {
+      // console.log(response.data['data']['paperList'])
+      for (let i = 0; i < response.data['data']['paperList']['mylist'].length; i++) {
+        let j = {
+          'id': i,
+          'isSet': false,
+          'paperListName': response.data['data']['paperList']['mylist'][i]['name'],
+          'paperListID': response.data['data']['paperList']['mylist'][i]['_id']
+        }
+        console.log(j)
+        this.paperListCollection.data.push(j)
+        this.paperListCollection.sel = JSON.parse(JSON.stringify(j))
+      }
+      for (let i = 0; i < response.data['data']['paperList']['collist'].length; i++) {
+        let j = {
+          'id': i,
+          'paperListName': response.data['data']['paperList']['collist'][i]['name'],
+          'paperListID': response.data['data']['paperList']['collist'][i]['_id']
+        }
+        this.paperListSubscribe.data.push(j)
+      }
     })
+    // console.log(this.paperListCollection.data)
   },
   methods: {
     addPaperList () {
-      for (let i of this.paperListStyle.data) {
+      for (let i of this.paperListCollection.data) {
         if (i.isSet) {
           this.$message({
             message: '请保存当前的编辑项目',
@@ -93,15 +130,15 @@ export default {
         }
       }
       let j = {
-        id: this.paperListStyle.data.length,
+        id: this.paperListCollection.data.length,
         'paperListName': '',
         'isSet': true
       }
-      this.paperListStyle.data.push(j)
-      this.paperListStyle.sel = JSON.parse(JSON.stringify(j))
+      this.paperListCollection.data.push(j)
+      this.paperListCollection.sel = JSON.parse(JSON.stringify(j))
     },
-    changePaperList (row, index, cg) {
-      for (let i of this.paperListStyle.data) {
+    changePaperList (row, index, cg, cmd) {
+      for (let i of this.paperListCollection.data) {
         if (i.isSet && i.id !== row.id) {
           this.$message({
             message: '请保存当前的编辑项目',
@@ -111,22 +148,50 @@ export default {
         }
       }
       if (!cg) {
-        this.paperListStyle.data.splice(index, 1)
         row.isSet = !row.isSet
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
+        let data = []
+        if (cmd === 1 || cmd === 2) {
+          data = this.paperListCollection.data[index]
+        } else {
+          data = this.paperListSubscribe.data[index]
+        }
+        let postData = {
+          'userID': parseInt(this.$store.state.userID),
+          'paperListID': data.paperListID,
+          'cmd': cmd,
+          'name': data.paperListName
+        }
+        console.log(postData)
         // todo：添加API之后调用API删除paperList
+        this.$axios.post('/api/collection/manage', postData).then((response) => {
+          let resdata = response.data
+          if (resdata['code'] === 100) {
+            if (cmd === 1 || cmd === 2) {
+              this.paperListCollection.data.splice(index, 1)
+            } else {
+              this.paperListSubscribe.data.splice(index, 1)
+            }
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            for (let k in data) {
+              row[k] = data[k]
+            }
+            row.isSet = false
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
         return true
       }
 
       if (row.isSet) {
         // todo：添加API之后调用API保存paperList
-        let data = JSON.parse(JSON.stringify(this.paperListStyle.sel))
+        let data = JSON.parse(JSON.stringify(this.paperListCollection.sel))
         let postData = {
           'userID': parseInt(this.$store.state.userID),
-          'paperListID': parseInt(index + 1),
+          'paperListID': 0,
           'cmd': 1,
           'name': data.paperListName
         }
@@ -135,27 +200,37 @@ export default {
           row[k] = data[k]
         }
         row.isSet = false
-        // this.$axios.post('/api/collection/manage', postData).then((response) => {
-        //   let resdata = response.data
-        //   if (resdata['code'] === 100) {
-        //     this.$message({
-        //       message: '保存成功',
-        //       type: 'success'
-        //     })
-        //     for (let k in data) {
-        //       row[k] = data[k]
-        //     }
-        //     row.isSet = false
-        //   } else {
-        //     this.$message.error('保存失败')
-        //   }
-        // })
+        this.$axios.post('/api/collection/manage', postData).then((response) => {
+          let resdata = response.data
+          if (resdata['code'] === 100) {
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+            for (let k in data) {
+              row[k] = data[k]
+            }
+            row.isSet = false
+          } else {
+            this.$message.error('保存失败')
+          }
+        })
       } else {
-        this.paperListStyle.sel = JSON.parse(JSON.stringify(row))
+        this.paperListCollection.sel = JSON.parse(JSON.stringify(row))
         row.isSet = true
       }
-      console.log(this.paperListStyle.data)
-      console.log(this.paperListStyle.sel)
+    },
+    jump2list (id, name) {
+      // console.log(id)
+      // console.log(name)
+      let routeData = this.$router.resolve({
+        path: '/PaperList',
+        query: {
+          'id': id,
+          'name': name
+        }
+      })
+      window.open(routeData.href, '_blank')
     }
   }
 }
