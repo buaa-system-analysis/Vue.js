@@ -49,7 +49,8 @@
         <el-row style="padding: 20px 0 5px 0">
           <el-col :span="4"><p style="color: dimgray">领域:</p></el-col>
           <el-col :span="20">
-            <span v-for="(f, index) in field" :key="f" style="color: black">{{f}}
+            <span v-for="(f, index) in field" :key="f" style="color: black">
+              <el-link :underline="false" @click="jump(f)">{{f}}</el-link>
               <span v-if="index != field.length-1">/ </span>
             </span>
           </el-col>
@@ -144,12 +145,15 @@ export default {
       this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
         let data = response.data['data']['subscribeList']
         var i = 0
-        for(i = 0; i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
           if (data[i]['_id'] == this.$route.query.ID) {
             this.state = true
           }
         }
       })
+    },
+    jump (f) {
+      this.$router.push({path: '/search', query: {id: f}})
     }
   },
   mounted: function () {
