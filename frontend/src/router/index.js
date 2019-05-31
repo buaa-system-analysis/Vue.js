@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Index from '@/views/Index'
 import Menu from '@/components/NavigationBar'
 import User from '@/views/User'
-import Purchase from '@/views/Purchase'
+import Home from '@/views/Home'
 import Search from '@/views/Search'
 import ResourceDisplay from '@/views/ResourceDisplay'
 import Collection from '@/views/Collection'
@@ -28,8 +28,8 @@ const router = new Router({
         default: Menu
       },
       children: [
+        {path: '', component: Home},
         {path: '/User', component: User},
-        {path: '/Purchase', component: Purchase},
         {path: '/Search', component: Search},
         {path: '/Resource', component: ResourceDisplay},
         {path: '/Collection', component: Collection},

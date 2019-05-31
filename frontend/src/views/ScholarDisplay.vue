@@ -7,7 +7,8 @@
             <el-button style="background-color: darkorange; color: white" round>认证</el-button>
         </el-row>
         <el-row>
-          <el-button style="background-color: white; color: darkorange" round>关注</el-button>
+          <el-button v-if="state === false" style="background-color: white; color: darkorange" round @click="subscribe">关注</el-button>
+          <el-button v-if="state === true" style="background-color: darkorange; color: white" round @click="unsubscribe">已关注</el-button>
         </el-row>
       </el-col>
       <el-col :span="12" style="text-align: left">
@@ -48,24 +49,11 @@
         <el-row style="padding: 20px 0 5px 0">
           <el-col :span="4"><p style="color: dimgray">领域:</p></el-col>
           <el-col :span="20">
-            <span v-for="f in field" :key="f" style="color: black">{{f}} / </span>
+            <span v-for="(f, index) in field" :key="f" style="color: black">{{f}}
+              <span v-if="index != field.length-1">/ </span>
+            </span>
           </el-col>
         </el-row>
-        <el-row style="padding-bottom: 5px">
-          <el-col :span="4"><p style="color: dimgray">研究内容:</p></el-col>
-          <el-col :span="20">
-                <span style="color: black; display: -webkit-box;-webkit-box-orient: vertical;
-              -webkit-line-clamp: 4;overflow: hidden">{{content}}</span>
-          </el-col>
-        </el-row>
-      </el-col>
-      <el-col :span="8">
-        <el-timeline>
-          <el-timeline-item v-for="item in experience" :key="item" :timestamp="item['time']"
-                            placement="top" type="warning">
-            <span style="color: #475669">{{item['exp']}}</span>
-          </el-timeline-item>
-        </el-timeline>
       </el-col>
     </el-row>
     <el-divider></el-divider>
@@ -78,11 +66,10 @@
                 {{item['title']}}
               </el-row>
               <el-row style="color: #475669; font-size: 12px">
-                {{item['year']}} - {{item['authors']}} - {{item['publishment']}}
+                    <span v-for="(author, index) in item['authors']" :key="author" style="color: black">{{author}}
+                      <span v-if="index != item['authors'].length-1">,  </span>
+                    </span>
               </el-row>
-            </el-col>
-            <el-col :span="4">
-              <el-button type="warning" icon="el-icon-trash" round>删除</el-button>
             </el-col>
           </el-row>
         </el-tab-pane>
@@ -109,18 +96,8 @@ export default {
       hindex: '',
       gindex: '',
       field: [],
-      content: '',
-      experience: [
-        {
-          time: '2019/4',
-          exp: '清华大学交叉信息研究院'
-        },
-        {
-          time: '2018/11',
-          exp: '北京大学信息科学学院'
-        }
-      ],
-      scholarPaper: []
+      scholarPaper: [],
+      state: false
     }
   },
   methods: {
@@ -128,7 +105,7 @@ export default {
       let postData = {
         'scholarID': parseInt(this.$route.query.ID)
       }
-      this.$axios.post('/scholar/find_by_id', postData).then((response) => {
+      this.$axios.post('/api/scholar/find_by_id', postData).then((response) => {
         let scholarInfo = response.data['data']['scholarInfo']
         this.scholarname = scholarInfo['name']
         this.org = scholarInfo['organization']
@@ -139,10 +116,45 @@ export default {
         this.field = scholarInfo['fields']
         this.scholarPaper = scholarInfo['papers']
       })
+    },
+    subscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'scholarID': parseInt(this.$route.query.ID),
+        'cmd': true
+      }
+      this.$axios.post('/api/collection/subscribe', postData).then((response) => {
+        window.location.reload()
+      })
+    },
+    unsubscribe () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'scholarID': parseInt(this.$route.query.ID),
+        'cmd': false
+      }
+      this.$axios.post('/api/collection/subscribe', postData).then((response) => {
+        window.location.reload()
+      })
+    },
+    dynamicShow () {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID)
+      }
+      this.$axios.post('/api/collection/get_subscribe_list', postData).then((response) => {
+        let data = response.data['data']['subscribeList']
+        var i = 0
+        for(i = 0; i < data.length; i++) {
+          if (data[i]['_id'] == this.$route.query.ID) {
+            this.state = true
+          }
+        }
+      })
     }
   },
   mounted: function () {
     this.getScholarInfo()
+    this.dynamicShow()
   }
 }
 </script>

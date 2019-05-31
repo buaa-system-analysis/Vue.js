@@ -1,6 +1,6 @@
 <template >
     <div style="display: inline-block; width: 50%; vertical-align: top; ">
-      <ul>
+      <ul v-loading="loading" element-loading-text="拼命加载中">
         <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">找到约{{total}}条结果</p></li>
         <li v-for="(item, index) in paperList.slice(10*(currentPage-1), 10*currentPage)" :key="index">
           <div style="width: 100%; padding-top: 20px;
@@ -11,8 +11,10 @@
             </el-link>
             <p style="color: black; display: -webkit-box;
               -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
-              <li style="display: inline-block" v-for="author in item['authors']" :key='author'>
-                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}</span>
+              <li style="display: inline-block" v-for="(author, index) in item['authors']" :key='author'>
+                <span style="padding-left: 5px; padding-right: 5px; color: black">{{author}}
+                  <span v-if="index != item['authors'].length-1">,  </span>
+                </span>
               </li>
             <p style="color: darkgrey; display: -webkit-box;
               -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">
@@ -70,7 +72,8 @@ export default {
         columns: [
           { field: 'paperListName', title: '名称' }
         ]
-      }
+      },
+      loading: true
     }
   },
   mounted: function () {
@@ -85,6 +88,7 @@ export default {
       }
       this.$axios.post('/api/search/paper', postData).then((response) => {
         this.paperList = response.data['data']['result']
+        this.loading = false
       })
     },
     current_change: function (currentPage) {

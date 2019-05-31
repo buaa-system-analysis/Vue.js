@@ -10,13 +10,15 @@
         style="margin-right:10px"
         :collapse="isCollapse">
         <el-menu-item style="padding: 0; height: 61px;">
-          <div style="height: 100%; width: 100%; background-color: darkorange">
-            <i class="el-icon-menu" style="color: white"></i>
-          </div>
+          <a href="/">
+            <div style="height: 100%; width: 100%; background-color: darkorange">
+              <i class="el-icon-menu" style="color: white"></i>
+            </div>
+          </a>
         </el-menu-item>
         <el-menu-item index="1" style="padding: 0">
           <div class="el-menu-item-div">
-            <a href="/" style="display: inline-block;width: 100%; height: 100%;">
+            <a href="/home" style="display: inline-block;width: 100%; height: 100%;">
               <i class="el-icon-search" style="color: darkorange"></i>
               <span slot="title" class="menu-item">搜索</span>
             </a>
@@ -35,14 +37,6 @@
             <a href="collection" style="display: inline-block;width: 100%; height: 100%;">
               <i class="el-icon-collection" style="color: darkorange"></i>
               <span slot="title" class="menu-item">收藏</span>
-            </a>
-          </div>
-        </el-menu-item>
-        <el-menu-item index="4" style="padding: 0">
-          <div class="el-menu-item-div">
-            <a href="purchase" style="display: inline-block;width: 100%; height: 100%;">
-              <i class="el-icon-goods" style="color: darkorange"></i>
-              <span slot="title" class="menu-item">购买</span>
             </a>
           </div>
         </el-menu-item>
