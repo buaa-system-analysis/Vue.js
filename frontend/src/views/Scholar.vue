@@ -8,8 +8,11 @@
             <el-button slot="append" icon="el-icon-search" @click="search">搜索</el-button>
           </el-input>
         </div>
-        <ul style="text-align: left; padding: 0 0 0 0">
+        <ul v-loading="loading" element-loading-text="拼命加载中" style="text-align: left; padding: 0 0 0 0">
           <li style="padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">为您找到以下结果:</p></li>
+          <el-row v-if="scholarList.length == 0" style="color: darkgray; font-size: 24px; padding-top: 50px; text-align: center">
+            未搜索到相关学者
+          </el-row>
           <li v-for="(item, index) in scholarList.slice(6*currentPage-6, 6*currentPage)" :key="index"
               style="line-height: 150%; padding-bottom: 30px; width: 50%; display: inline-block; vertical-align: top">
             <el-row>
@@ -318,6 +321,7 @@ export default {
   data () {
     return {
       searchScholarName: '',
+      loading: true,
       scholarID: 0,
       scholarname: '',
       org: '',
@@ -386,6 +390,7 @@ export default {
       }
       this.$axios.post('/api/scholar/find_by_kwd', postData).then((response) => {
         this.scholarList = response.data['data']['scholarInfo']
+        this.loading = false
       })
     },
     getSubscribeList () {
@@ -404,7 +409,7 @@ export default {
       this.$axios.post('/api/user/find', postData).then((response) => {
         user = response.data['data']['user']
         let postData2 = {
-          'scholarID': parseInt(user['scholarID'])
+          'scholarID': user['scholarID']
         }
         this.$axios.post('/api/scholar/find_by_id', postData2).then((response) => {
           let scholarInfo = response.data['data']['scholarInfo']
@@ -416,7 +421,18 @@ export default {
           this.hindex = scholarInfo['h_index']
           this.gindex = scholarInfo['g_index']
           this.field = scholarInfo['fields']
-          this.scholarPaper = scholarInfo['papers']
+          let papers = scholarInfo['papers']
+          for (var i = 0; i < papers.length; i++) {
+            let postData = {
+              'id': papers[i]['title']
+            }
+            this.$axios.post('/api/search/paper_id', postData).then((response) => {
+              let data = response.data['data']['result']
+              if (data != null) {
+                this.scholarPaper[i] = data
+              }
+            })
+          }
           this.scholarPatent = scholarInfo['patents']
           this.scholarProject = scholarInfo['projects']
         })
@@ -425,7 +441,7 @@ export default {
     unsubscribe () {
       let postData = {
         'userID': parseInt(this.$store.state.userID),
-        'scholarID': parseInt(this.$route.query.ID),
+        'scholarID': this.$route.query.ID,
         'cmd': false
       }
       this.$axios.post('/api/collection/subscribe', postData).then((response) => {
@@ -443,7 +459,7 @@ export default {
       }
       papers[papers.length++] = paper
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'papers': papers
         }
@@ -464,7 +480,7 @@ export default {
       }
       patents[patents.length++] = patent
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'patents': patents
         }
@@ -484,7 +500,7 @@ export default {
       }
       projects[projects.length++] = project
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'projects': projects
         }
@@ -499,7 +515,7 @@ export default {
       let papers = this.scholarPaper
       papers.splice(index, 1)
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'papers': papers
         }
@@ -514,7 +530,7 @@ export default {
       let patents = this.scholarPatent
       patents.splice(index, 1)
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'patents': patents
         }
@@ -529,7 +545,7 @@ export default {
       let projects = this.scholarProject
       projects.splice(index, 1)
       let postData = {
-        'scholarID': parseInt(this.scholarID),
+        'scholarID': this.scholarID,
         'info': {
           'projects': projects
         }
@@ -546,6 +562,9 @@ export default {
     this.getSubscribeList()
     if (this.$route.query.id != null) {
       this.getScholarList()
+    }
+    else {
+      this.loading = false
     }
   },
   computed: {

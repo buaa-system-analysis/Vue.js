@@ -92,7 +92,6 @@ export default {
       window.open(routeData.href, '_blank')
     },
     cancel_collect (paperID, index) {
-      // console.log(index)
       let postData = {
         'userID': parseInt(this.$store.state.userID),
         'paperListID': parseInt(this.$route.query.id),

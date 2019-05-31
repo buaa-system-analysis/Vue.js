@@ -14,8 +14,7 @@
           <template slot="title">{{this.$store.state.username}}</template>
           <el-menu-item index="2-1"><a href="/user" style="color: darkgray">个人中心</a></el-menu-item>
           <el-menu-item index="2-2"><a href="/scholar" style="color: darkgray">学者中心</a></el-menu-item>
-          <el-menu-item index="2-3"><a href="/purchase" style="color: darkgray">已购买文献</a></el-menu-item>
-          <el-menu-item index="2-4" @click="logout">退出登录</el-menu-item>
+          <el-menu-item index="2-3" @click="logout">退出登录</el-menu-item>
         </el-submenu>
         <el-menu-item style="float:right" v-if="this.$route.path !== '/'">
           <el-input v-model="input3">

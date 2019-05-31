@@ -53,7 +53,22 @@
         </el-col>
       </el-row>
       <el-row style="padding-top: 20px">
-        <el-button type="warning" icon="el-icon-star-off" round>收藏</el-button>
+        <el-button type="warning" icon="el-icon-star-off" round @click="get_collection_list()">收藏</el-button>
+        <el-dialog title="收藏" :visible.sync="collection" width="30%">
+          <el-table size="medium" :data="paperListCollection.data" border style="width: 100%" highlight-current-row>
+            <el-table-column type="index"></el-table-column>
+            <el-table-column v-for="(v,i) in paperListCollection.columns" :prop="v.field" :label="v.title" :key="(v,i)">
+              <template slot-scope="scope">
+                <el-button type="text" size="small">{{scope.row['paperListName']}}</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button size="small"  @click="collect(scope.row['paperListID'])" >收藏</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-dialog>
         <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
         <a :href="url" style="padding-left: 10px">
           <el-button type="warning" icon="el-icon-download" round>下载</el-button>
@@ -70,21 +85,21 @@ export default {
   name: 'ResourceDisplay',
   data () {
     return {
-      title: 'Attention is all you need',
-      paper_id: '123456',
-      url: 'https://www.baidu.com',
-      authors: 'Xinhang Li',
-      abstract: 'We review recent research results pertaining to GaN, AIN and InN, focusing on present-day techniques and future prospects. ' +
-        'The molecular beam epitaxy and metal-organic vapor phase epitaxy growth techniques, as they have been applied to the nitrides, are described. ' +
-        'New developments in plasma-based sources and substrates are covered. ' +
-        'We also discuss the most recent developments towards an... [Show full abstract]',
-      keywords: [
-        'Crystal structure',
-        'Crystal growth',
-        'EECS'
-      ],
-      doi: '10.1116/1.585897',
-      citation: '1836'
+      title: '',
+      paper_id: '',
+      authors: '',
+      abstract: '',
+      keywords: [],
+      url: '',
+      doi: '',
+      citation: '',
+      collection: false,
+      paperListCollection: {
+        data: [],
+        columns: [
+          { field: 'paperListName', title: '名称' }
+        ]
+      }
     }
   },
   components: {
@@ -106,6 +121,43 @@ export default {
     },
     jump2 (f) {
       this.$router.push({path: '/search', query: {id: f}})
+    },
+    get_collection_list () {
+      this.paperListCollection.data = []
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'paperListID': 0
+      }
+      this.$axios.post('/api/collection/get_paper_list', postData).then((response) => {
+        for (let i = 0; i < response.data['data']['paperList']['mylist'].length; i++) {
+          let j = {
+            'id': i,
+            'paperListName': response.data['data']['paperList']['mylist'][i]['name'],
+            'paperListID': response.data['data']['paperList']['mylist'][i]['_id']
+          }
+          this.paperListCollection.data.push(j)
+        }
+        this.collection = true
+      })
+    },
+    collect (paperListID) {
+      let postData = {
+        'userID': parseInt(this.$store.state.userID),
+        'paperListID': paperListID,
+        'cmd': 'ADD',
+        'paperID': this.paper_id
+      }
+      this.$axios.post('/api/collection/paper', postData).then((response) => {
+        let data = response.data
+        if (data['code'] === 100) {
+          this.$message({
+            message: '收藏成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error('收藏失败')
+        }
+      })
     }
   }
 }

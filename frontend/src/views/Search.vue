@@ -9,14 +9,15 @@
                      style="display: block; font-size: 24px; height: min-content; margin: 5px; line-height: 120%">
               {{item['title']}}
             </el-link>
-              <li style="display: inline-block" v-for="(author, index) in item['authors']" :key='author'>
-                <span style="padding-left: 5px; padding-right: 5px; color: black">
-                  <el-link :underline="false" @click="jump2(author)">{{author}}</el-link>
-                  <span v-if="index != item['authors'].length-1">,  </span>
-                </span>
-              </li>
+            <p style="color: black; display: -webkit-box;
+                -webkit-box-orient: vertical; -webkit-line-clamp: 4;overflow: hidden;">
+            <li style="display: inline-block" v-for="author in item['authors']" :key='author'>
+              <span style="padding-left: 5px; padding-right: 5px; color: black">
+                <el-link :underline="false" @click="jump2(author)">{{author}}</el-link>
+              </span>
+            </li>
             <p style="color: darkgrey; display: -webkit-box;
-              -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">
+                -webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; margin: 5px">
               {{item['abstract']}}
             </p>
             <el-row style="padding: 10px 0 10px 0">
@@ -62,7 +63,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      paperID: 1,
+      paperID: '',
       paperList: [],
       collection: false,
       paperListCollection: {
@@ -77,6 +78,9 @@ export default {
   mounted: function () {
     if (this.$route.query.id != null) {
       this.search()
+    }
+    else {
+      this.loading = false
     }
   },
   methods: {
@@ -127,7 +131,6 @@ export default {
           }
           this.paperListCollection.data.push(j)
         }
-        // console.log(this.paperListCollection.data)
         this.collection = true
         this.paperID = index
       })
@@ -139,7 +142,6 @@ export default {
         'cmd': 'ADD',
         'paperID': this.paperID
       }
-      // console.log(this.paperList)
       this.$axios.post('/api/collection/paper', postData).then((response) => {
         let data = response.data
         if (data['code'] === 100) {
@@ -151,8 +153,6 @@ export default {
           this.$message.error('收藏失败')
         }
       })
-    },
-    to_collect_page () {
     }
   },
   computed: {
