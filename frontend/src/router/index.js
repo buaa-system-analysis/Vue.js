@@ -10,6 +10,7 @@ import Collection from '@/views/Collection'
 import Scholar from '@/views/Scholar'
 import PaperList from '@/views/PaperList'
 import ScholarDisplay from '@/views/ScholarDisplay'
+import Admin from '@/views/Admin'
 
 Vue.use(Router)
 
@@ -39,6 +40,12 @@ const router = new Router({
       ],
       meta: {
         requireAuth: true
+      }
+    },
+    {
+      path: '/admin',
+      components: {
+        default: Admin
       }
     }
   ]
