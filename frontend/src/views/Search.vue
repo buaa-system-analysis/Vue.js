@@ -1,7 +1,7 @@
 <template >
     <div style="display: inline-block; width: 50%; vertical-align: top; ">
       <ul v-loading="loading" element-loading-text="拼命加载中">
-        <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">找到约{{total}}条结果</p></li>
+        <li style="text-align: left; padding:0 0 10px 10px"><p style="font-size: 12px; color: darkgrey">已为您显示前{{total}}条搜索结果</p></li>
         <li v-for="(item, index) in paperList.slice(10*(currentPage-1), 10*currentPage)" :key="index">
           <div style="width: 100%; padding-top: 20px;
           border-color: darkgray; border-style: solid; border-width: 0 0 1px 0;text-align: left">
@@ -37,8 +37,11 @@
                   </el-table-column>
                 </el-table>
               </el-dialog>
-              <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
-              <a :href="item['fulltextURL']" style="padding-left: 10px">
+              <el-button type="warning" icon="el-icon-chat-line-square" round @click="cite(index)">引用</el-button>
+              <el-dialog title="引用" :visible.sync="VisibleCite" width="30%">
+                <span>{{citeInfo}}</span>
+              </el-dialog>
+              <a :href="item['fulltextURL']">
                 <el-button type="warning" icon="el-icon-download" round>下载</el-button>
               </a>
             </el-row>
@@ -72,14 +75,15 @@ export default {
           { field: 'paperListName', title: '名称' }
         ]
       },
-      loading: true
+      loading: true,
+      VisibleCite: false,
+      citeInfo: ''
     }
   },
   mounted: function () {
     if (this.$route.query.id != null) {
       this.search()
-    }
-    else {
+    } else {
       this.loading = false
     }
   },
@@ -116,7 +120,7 @@ export default {
     jump2 (f) {
       this.$router.push({path: '/scholar', query: {id: f}})
     },
-    get_collection_list (index) {
+    get_collection_list (id) {
       this.paperListCollection.data = []
       let postData = {
         'userID': parseInt(this.$store.state.userID),
@@ -132,7 +136,7 @@ export default {
           this.paperListCollection.data.push(j)
         }
         this.collection = true
-        this.paperID = index
+        this.paperID = id
       })
     },
     collect (paperListID) {
@@ -153,6 +157,17 @@ export default {
           this.$message.error('收藏失败')
         }
       })
+    },
+    cite (index) {
+      let data = this.paperList[(this.currentPage - 1) * 10 + index]
+      this.citeInfo = ''
+      this.citeInfo += data['title'] + '. '
+      for (var i = 0; i < data['authors'].length - 1; i++) {
+        this.citeInfo += data['authors'][i] + ', '
+      }
+      this.citeInfo += data['authors'][data['authors'].length - 1] + '. '
+      this.citeInfo += data['publishment'] + '.'
+      this.VisibleCite = true
     }
   },
   computed: {

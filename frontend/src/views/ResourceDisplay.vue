@@ -69,8 +69,11 @@
             </el-table-column>
           </el-table>
         </el-dialog>
-        <el-button type="warning" icon="el-icon-chat-line-square" round>引用</el-button>
-        <a :href="url" style="padding-left: 10px">
+        <el-button type="warning" icon="el-icon-chat-line-square" round @click="cite()">引用</el-button>
+        <el-dialog title="引用" :visible.sync="VisibleCite" width="30%">
+          <span>{{citeInfo}}</span>
+        </el-dialog>
+        <a :href="url">
           <el-button type="warning" icon="el-icon-download" round>下载</el-button>
         </a>
       </el-row>
@@ -99,7 +102,9 @@ export default {
         columns: [
           { field: 'paperListName', title: '名称' }
         ]
-      }
+      },
+      VisibleCite: false,
+      citeInfo: ''
     }
   },
   components: {
@@ -107,7 +112,11 @@ export default {
   },
   mounted: function () {
     this.title = this.$route.query.title
-    this.paper_id = this.$route.query.paper_id
+    if (this.$route.query.paper_id.length < 5) {
+      this.paper_id = parseInt(this.$route.query.paper_id)
+    } else {
+      this.paper_id = this.$route.query.paper_id
+    }
     this.authors = this.$route.query.authors
     this.url = this.$route.query.url
     this.abstract = this.$route.query.abstract
@@ -158,6 +167,16 @@ export default {
           this.$message.error('收藏失败')
         }
       })
+    },
+    cite () {
+      this.citeInfo = ''
+      this.citeInfo += this.title + '. '
+      for (var i = 0; i < this.authors.length - 1; i++) {
+        this.citeInfo += this.authors[i] + ', '
+      }
+      this.citeInfo += this.authors[this.authors.length - 1] + '. '
+      this.citeInfo += this.doi + '.'
+      this.VisibleCite = true
     }
   }
 }

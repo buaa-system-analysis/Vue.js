@@ -412,29 +412,38 @@ export default {
           'scholarID': user['scholarID']
         }
         this.$axios.post('/api/scholar/find_by_id', postData2).then((response) => {
-          let scholarInfo = response.data['data']['scholarInfo']
-          this.scholarID = scholarInfo['_id']
-          this.scholarname = scholarInfo['name']
-          this.org = scholarInfo['organization']
-          this.citation = scholarInfo['citation']
-          this.pub = scholarInfo['papers'].length
-          this.hindex = scholarInfo['h_index']
-          this.gindex = scholarInfo['g_index']
-          this.field = scholarInfo['fields']
-          let papers = scholarInfo['papers']
-          for (var i = 0; i < papers.length; i++) {
-            let postData = {
-              'id': papers[i]['title']
-            }
-            this.$axios.post('/api/search/paper_id', postData).then((response) => {
-              let data = response.data['data']['result']
-              if (data != null) {
-                this.scholarPaper[i] = data
+          if (response.data['code'] === 100) {
+            let scholarInfo = response.data['data']['scholarInfo']
+            this.scholarID = scholarInfo['_id']
+            this.scholarname = scholarInfo['name']
+            this.org = scholarInfo['organization']
+            this.citation = scholarInfo['citation']
+            this.pub = scholarInfo['papers'].length
+            this.hindex = scholarInfo['h_index']
+            this.gindex = scholarInfo['g_index']
+            this.field = scholarInfo['fields']
+            let papers = scholarInfo['papers']
+            if (papers[0]['paper_id'] != null) {
+              for (var i = 0; i < papers.length; i++) {
+                let postData = {
+                  'id': papers[i]['paper_id']
+                }
+                this.$axios.post('/api/search/paper_id', postData).then((response) => {
+                  let data = response.data['data']['result']
+                  if (data != null) {
+                    this.scholarPaper[i] = data
+                  }
+                })
               }
-            })
+            } else {
+              this.scholarPaper = papers
+            }
+            this.scholarPatent = scholarInfo['patents']
+            this.scholarProject = scholarInfo['projects']
+          } else {
+            this.scholarID = 0
+            this.scholarname = user['name']
           }
-          this.scholarPatent = scholarInfo['patents']
-          this.scholarProject = scholarInfo['projects']
         })
       })
     },
@@ -562,8 +571,7 @@ export default {
     this.getSubscribeList()
     if (this.$route.query.id != null) {
       this.getScholarList()
-    }
-    else {
+    } else {
       this.loading = false
     }
   },
