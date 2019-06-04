@@ -105,14 +105,7 @@ export default {
       let routeData = this.$router.resolve({
         path: '/resource',
         query: {
-          title: data['title'],
-          paper_id: data['_id'],
-          url: data['fulltextURL'],
-          authors: data['authors'],
-          abstract: data['abstract'],
-          keywords: data['field'],
-          doi: data['publishment'],
-          citation: data['citation']
+          paper_id: data['_id']
         }
       })
       window.open(routeData.href, '_blank')

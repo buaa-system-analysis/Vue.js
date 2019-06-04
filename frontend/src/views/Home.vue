@@ -1,5 +1,6 @@
 <template>
   <div style="margin-top: 30px; padding: 0 17% 0 17%">
+
     <el-row>
       <el-col :span="4">
         <span style="color: black; font-size: 24px">文献搜索</span>
@@ -10,6 +11,23 @@
         </el-input>
       </el-col>
     </el-row>
+    <el-divider>
+      <span>热点信息</span>
+    </el-divider>
+    <div>
+      <el-carousel indicator-position="outside" type="card">
+        <el-carousel-item v-for="item in carousel" :key="item">
+          <a :href="item['url']">
+            <div style="
+              width: 100%; height: 100%; display: block; position: relative"
+                 :style="{backgroundImage: 'url(' + item['img'] + ')'}">
+              <p style="color: white; font-size: 24px; position: absolute; bottom: 0; padding: 10px 10px 10px 10px; text-align: left">
+                {{item['text']}}</p>
+            </div>
+          </a>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
 
     <el-divider>
       <span>合作机构</span>
@@ -90,13 +108,6 @@
       </div>
     </div>
 
-    <div>
-      <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3>{{ item }}</h3>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
   </div>
 </template>
 
@@ -105,7 +116,24 @@ export default {
   name: 'Purchase',
   data () {
     return {
-      input3: ''
+      input3: '',
+      carousel: [
+        {
+          url: 'https://www.leiphone.com/news/201905/BqtdEApe6yLEX1s0.html',
+          text: 'AI奇袭金融业，如何抢占下一个十年高地？| CCF-GAIR 2019',
+          img: 'https://static.leiphone.com/uploads/new/homepagerecommend/pic/201905/5ce4ffd0d1041.jpg?imageMogr2/thumbnail/!510x322r/gravity/Center/crop/510x322/quality/90'
+        },
+        {
+          url: 'https://www.leiphone.com/news/201906/LE5EiZjfWaATt7D1.html',
+          text: 'IEEE突然宣布解除对华为编辑和同行评审活动的限制!',
+          img: 'https://static.leiphone.com/uploads/new/article/pic/201906/5cf485e31b500.jpg?imageMogr2/thumbnail/!480x290r/gravity/Center/crop/480x290/quality/90'
+        },
+        {
+          url: 'https://www.leiphone.com/news/201906/RWFjKq3dULaYrNmC.html',
+          text: '2019 自然语言处理前沿论坛成功举办，百度 NLP 技术全揭秘',
+          img: 'https://static.leiphone.com/uploads/new/article/pic/201906/5cf4912e4c054.jpg?imageMogr2/thumbnail/!480x290r/gravity/Center/crop/480x290/quality/90'
+        }
+      ]
     }
   },
   methods: {

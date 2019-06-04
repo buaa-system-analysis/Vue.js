@@ -111,18 +111,24 @@ export default {
     Comment
   },
   mounted: function () {
-    this.title = this.$route.query.title
     if (this.$route.query.paper_id.length < 5) {
       this.paper_id = parseInt(this.$route.query.paper_id)
     } else {
       this.paper_id = this.$route.query.paper_id
     }
-    this.authors = this.$route.query.authors
-    this.url = this.$route.query.url
-    this.abstract = this.$route.query.abstract
-    this.keywords = this.$route.query.keywords
-    this.doi = this.$route.query.doi
-    this.citation = this.$route.query.citation
+    let postData = {
+      'id': this.paper_id
+    }
+    this.$axios.post('/api/search/paper_id', postData).then((response) => {
+      let data = response.data['data']['result']
+      this.title = data['title']
+      this.authors = data['authors']
+      this.url = data['fulltextURL']
+      this.abstract = data['abstract']
+      this.keywords = data['field']
+      this.doi = data['publishment']
+      this.citation = data['citation']
+    })
   },
   methods: {
     jump (f) {

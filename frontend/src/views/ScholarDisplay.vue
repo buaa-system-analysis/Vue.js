@@ -209,7 +209,7 @@ export default {
         let data = response.data['data']['subscribeList']
         var i = 0
         for (i = 0; i < data.length; i++) {
-          if (data[i]['_id'] === this.$route.query.ID) {
+          if (data[i]['_id'] == this.$route.query.ID) {
             this.state = true
           }
         }
